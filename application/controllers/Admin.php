@@ -7,22 +7,24 @@ class Admin extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->data['username']      = $this->session->userdata('username');
-        $this->data['role']  = $this->session->userdata('role');
-        if (!isset($this->data['username'], $this->data['role']))
-        {
-            $this->session->sess_destroy();
-            redirect('login');
-            exit;
-        }
-        if ($this->data['role'] != 1)
-        {
-            $this->session->sess_destroy();
-            redirect('login');
-            exit;
-        }
+        $this->data['username']      = 'syad';
+        $this->data['role']  = 1;
+        // $this->data['username']      = $this->session->userdata('username');
+        // $this->data['role']  = $this->session->userdata('role');
+        // if (!isset($this->data['username'], $this->data['role']))
+        // {
+        //     $this->session->sess_destroy();
+        //     redirect('login');
+        //     exit;
+        // }
+        // if ($this->data['role'] != 1)
+        // {
+        //     $this->session->sess_destroy();
+        //     redirect('login');
+        //     exit;
+        // }
     }
-
+ 
     public function index()
     {
         $this->data['title']        = 'Dashboard Admin';
@@ -30,19 +32,52 @@ class Admin extends MY_Controller
         $this->template($this->data);
     }
 
+    public function data_admin($value='')
+    {
+        $this->load->model( 'admin_m' );
+        $this->data[ 'admin' ]        = $this->admin_m->get();
+        $this->data[ 'title' ]        = 'Data Admin';
+        $this->data[ 'content' ]      = 'admin/admin_data';
+        $this->template( $this->data );
+    }
+
     public function data_siswa($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model( 'siswa_m' );
+        $this->data[ 'siswa' ]        = $this->siswa_m->get();
+        $this->data[ 'title' ]        = 'Data Siswa';
+        $this->data[ 'content' ]      = 'admin/siswa_data';
         $this->template($this->data);
     }
 
 
     public function tambah_siswa($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
-        $this->template($this->data);
+        if ($this->POST( 'submit' ))
+        {
+            $this->load->model( 'siswa_m' );
+            $this->data[ 'siswa' ] = [
+                'nisn'              => $this->POST( 'nisn' ),
+                'nama'              => $this->POST( 'nama' ),
+                'jenis_kelamin'     => $this->POST( 'jenis_kelamin' ),
+                'tanggal_lahir'     => $this->POST( 'tanggal_lahir' )
+            ];
+            $cek = $this->siswa_m->get_row(['nisn' => $this->data['siswa']['nisn'] ]);
+            if ($cek) {
+                $this->flashmsg( 'tambah siswa gagal, data tidak valid atau siswa sudah terdaftar.', 'error' );
+                redirect( base_url( 'admin/data_siswa' ) );
+                exit;
+            } else {
+                $this->siswa_m->insert( $this->data['siswa'] );
+                $this->flashmsg( 'tambah siswa sukses' );
+                redirect( base_url( 'admin/data_siswa' ) );
+                exit;
+
+            }
+        }
+        
+        redirect( base_url( 'admin/data_siswa' ) );
+        
     }
 
     public function detail_siswa($value='')
@@ -68,6 +103,8 @@ class Admin extends MY_Controller
 
     public function data_universitas($value='')
     {
+        $this->load->model( 'universitas_m' );
+        $this->data[ 'universitas' ]= $this->universitas_m->get();
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'admin/dashboard';
         $this->template($this->data);

@@ -7,20 +7,22 @@ class Siswa extends MY_Controller
 	public function __construct()
     {
         parent::__construct();
-        $this->data['username']      = $this->session->userdata('username');
-        $this->data['role']  = $this->session->userdata('role');
-        if (!isset($this->data['username'], $this->data['role']))
-        {
-            $this->session->sess_destroy();
-            redirect('login');
-            exit;
-        }
-        if ($this->data['role'] != 2)
-        {
-            $this->session->sess_destroy();
-            redirect('login');
-            exit;
-        }
+        $this->data['username']   = 'syad';
+        $this->data['role'] = 2;
+        // $this->data['username']   = $this->session->userdata('username');
+        // $this->data['role']       = $this->session->userdata('role');
+        // if (!isset($this->data['username'], $this->data['role']))
+        // {
+        //     $this->session->sess_destroy();
+        //     redirect('login');
+        //     exit;
+        // }
+        // if ($this->data['role'] != 2)
+        // {
+        //     $this->session->sess_destroy();
+        //     redirect('login');
+        //     exit;
+        // }
     }
 
     public function index($value='')
@@ -32,8 +34,10 @@ class Siswa extends MY_Controller
 
     public function profile($value='')
     {
-    	$this->data['title']        = 'Dashboard Siswa';
-        $this->data['content']      = 'siswa/dashboard';
+        $this->load->model( 'siswa_m' );
+        $this->data[ 'siswa' ]      = $this->siswa_m->get_row([ 'username' => $this->data[ 'username' ] ]);
+    	$this->data[ 'title' ]      = 'Data Siswa';
+        $this->data[ 'content' ]    = 'siswa/profile';
         $this->template($this->data);
     }
 
@@ -60,7 +64,7 @@ class Siswa extends MY_Controller
 
     public function data_nilai($value='')
     {
-    	$this->data['title']        = 'Dashboard Siswa';
+    	$this->data['title']        = 'Data Nilai Siswa';
         $this->data['content']      = 'siswa/dashboard';
         $this->template($this->data);
     }
