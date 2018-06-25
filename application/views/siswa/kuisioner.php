@@ -5,47 +5,39 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <?= $title ?>
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <style type="text/css">
-                                        tr th, tr td {text-align: center; padding: 1%;}
-                                    </style>
-                                    <?= $this->session->flashdata('msg') ?>
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i> Tambah</button><hr>
-                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Username</th>
-                                                <th>Nama</th>
-                                                <th>Jabatan</th>                                        
-                                                <th>Action</th>
-                                                <!-- <th></th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $i=1; foreach($admin as $row): ?>
-                                            <tr>
-                                                <td style="width: 20px !important;" ><?= $i ?></td>
-                                                <td><?= $row->username ?></td>
-                                                <td><?= $row->nama ?></td>
-                                                <td><?= $row->jabatan ?></td>                                                
-                                                <td align="center">
-                                                <button class="btn btn-primary btn-xs" onclick="_delete('<?= $row->username ?>')"><i class="glyphicon glyphicon-pencil"></i></button>
-                                                <button class="btn btn-danger btn-xs" onclick="_delete('<?= $row->username ?>')"><i class="glyphicon glyphicon-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <?php $i++; endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                    <!-- /.table-responsive -->
-                                </div>
-                                <!-- /.panel-body -->
+                            <h3>Kuisioner</h3>
+                            <?= form_open( 'siswa/kuisioner' ) ?>
+                            <div class="row">
+                                1. Apakah jurusan kuliah yang anda pilih sesuai dengan kemauan anda sendiri?<br>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nomor1">Ya, saya sendiri
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nomor1">Tidak, ikut orang tua
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nomor1">Tidak, ikut teman
+                                </label>
                             </div>
+                            <div class="row">
+                                2. Seberapa besar minat anda terhadap jurusan yang anda pilih?<br>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nomor1">Sangat Besar
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nomor1">Cukup Besar
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nomor1">Biasa Saja
+                                </label>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <input type="checkbox" name="setuju"> Saya menyatakan telah mengisi kuisioner dengan keadaan yang sebenarnya.
+                            </div>
+
+                            <input type="submit" name="submit" value="simpan" class="btn btn-primary">
+                            <?= form_close() ?>
                             <!-- /.panel -->
                         </div>
                         <!-- /.col-lg-12 -->

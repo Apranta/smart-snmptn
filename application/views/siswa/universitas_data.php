@@ -19,48 +19,28 @@
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>NISN</th>
+                                                <th>No</th>                                              
                                                 <th>Nama</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>                                        
-                                                <th>Detail</th>
-                                                <!-- <th></th> -->
+                                                <th>Link</th>
+                                                                                        
+                                  
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; foreach($siswa as $row): ?>
+                                            <?php $i=1; foreach($universitas as $row): ?>
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
-                                                <td><?= $row->nisn ?></td>
-                                                <td><?= $row->nama ?></td>
-                                                <td><?= $row->jenis_kelamin ?></td>
-                                                <td><?= $row->tanggal_lahir ?></td>                                                
-                                                <td align="center">
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->nisn )?>" class="btn btn-xs" >Detail Siswa</a>
-                                                </td>
+                                                
+                                                <td><?= $row->nama_uni ?></td>
+                                                <td><a href="<?= $row->link ?>"><?= $row->link ?></a></td>
+                                                                                                
+                                       
                                             </tr>
                                             <?php $i++; endforeach; ?>
                                         </tbody>
                                     </table>
                                     <!-- /.table-responsive -->
-                                    tambah data
-                                    <?= form_open( 'admin/tambah_siswa', [ 'class' => 'form-inline'] ) ?>
-                                        <div class="form-group">
-                                            <input type="text" name="nisn" placeholder="nisn" class="form-control">    
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="nama" placeholder="nama" class="form-control">    
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="radio-inline"><input type="radio" name="jenis_kelamin" value="L">Laki-Laki</label>    
-                                            <label class="radio-inline"><input type="radio" name="jenis_kelamin" value="P">Perempuan</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="date" name="tanggal_lahir" placeholder="tanggal_lahir" class="form-control">    
-                                        </div>    
-                                        <input type="submit" name="submit" value="simpan" class="btn btn-primary">
-                                    <?= form_close() ?>
+                                    
                                 </div>
                                 <!-- /.panel-body -->
                             </div>

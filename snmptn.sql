@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 14 Jun 2018 pada 11.51
--- Versi Server: 10.1.28-MariaDB
--- PHP Version: 7.1.11
+-- Generation Time: Jun 25, 2018 at 04:32 PM
+-- Server version: 10.1.31-MariaDB
+-- PHP Version: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,10 +35,17 @@ CREATE TABLE `admin` (
   `jabatan` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`username`, `nama`, `alamat`, `jabatan`) VALUES
+('syad', 'syad', 'kartamulia', 'admin 1');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `bobot`
+-- Table structure for table `bobot`
 --
 
 CREATE TABLE `bobot` (
@@ -51,7 +58,7 @@ CREATE TABLE `bobot` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `hasil_kuisioner`
+-- Table structure for table `hasil_kuisioner`
 --
 
 CREATE TABLE `hasil_kuisioner` (
@@ -64,7 +71,7 @@ CREATE TABLE `hasil_kuisioner` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenis_lomba`
+-- Table structure for table `jenis_lomba`
 --
 
 CREATE TABLE `jenis_lomba` (
@@ -74,10 +81,18 @@ CREATE TABLE `jenis_lomba` (
   `persentase` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `jenis_lomba`
+--
+
+INSERT INTO `jenis_lomba` (`id`, `jenis`, `jenis_lomba`, `persentase`) VALUES
+(1, 'AKADEMIK', 'OSN', 1),
+(2, 'AKADEMIK', 'OPSI', 1);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenjang_prestasi`
+-- Table structure for table `jenjang_prestasi`
 --
 
 CREATE TABLE `jenjang_prestasi` (
@@ -87,10 +102,19 @@ CREATE TABLE `jenjang_prestasi` (
   `persentase` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `jenjang_prestasi`
+--
+
+INSERT INTO `jenjang_prestasi` (`id`, `nama`, `bobot`, `persentase`) VALUES
+(1, 'kota/kabupaten', 0, 0),
+(2, 'Internasional', 1, 1),
+(3, 'Nasional', 1, 1);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kelas`
+-- Table structure for table `kelas`
 --
 
 CREATE TABLE `kelas` (
@@ -101,7 +125,7 @@ CREATE TABLE `kelas` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kuisioner`
+-- Table structure for table `kuisioner`
 --
 
 CREATE TABLE `kuisioner` (
@@ -110,10 +134,20 @@ CREATE TABLE `kuisioner` (
   `jawaban` varchar(255) NOT NULL DEFAULT '[]'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `kuisioner`
+--
+
+INSERT INTO `kuisioner` (`id`, `pertanyaan`, `jawaban`) VALUES
+(2, 'hmm', 'a,v,c'),
+(3, 'eeeeeeeeeee', '[]'),
+(11, 'berapa berminat dengan jurusan ini?', 'apa,baik,ya'),
+(13, 'sql', 'aa,bb,cc');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mata_lomba`
+-- Table structure for table `mata_lomba`
 --
 
 CREATE TABLE `mata_lomba` (
@@ -126,7 +160,7 @@ CREATE TABLE `mata_lomba` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mata_pelajaran`
+-- Table structure for table `mata_pelajaran`
 --
 
 CREATE TABLE `mata_pelajaran` (
@@ -139,7 +173,7 @@ CREATE TABLE `mata_pelajaran` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `nilai_jurusan`
+-- Table structure for table `nilai_jurusan`
 --
 
 CREATE TABLE `nilai_jurusan` (
@@ -149,10 +183,30 @@ CREATE TABLE `nilai_jurusan` (
   `nisn` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `nilai_jurusan`
+--
+
+INSERT INTO `nilai_jurusan` (`id`, `id_bobot`, `nilai`, `nisn`) VALUES
+(1, 0, 80, '111');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `peringkat`
+-- Table structure for table `nilai_umum`
+--
+
+CREATE TABLE `nilai_umum` (
+  `id` int(11) NOT NULL,
+  `id_bobot` int(11) NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `nisn` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `peringkat`
 --
 
 CREATE TABLE `peringkat` (
@@ -161,10 +215,18 @@ CREATE TABLE `peringkat` (
   `bobot` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `peringkat`
+--
+
+INSERT INTO `peringkat` (`id`, `nama`, `bobot`) VALUES
+(1, 'Kota/kabupaten', 0),
+(2, 'sekolah', 0);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `prestasi`
+-- Table structure for table `prestasi`
 --
 
 CREATE TABLE `prestasi` (
@@ -178,21 +240,29 @@ CREATE TABLE `prestasi` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `program_studi`
+-- Table structure for table `program_studi`
 --
 
 CREATE TABLE `program_studi` (
   `id` int(11) NOT NULL,
   `id_universitas` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL,
+  `nama_prodi` varchar(100) NOT NULL,
   `grade` double NOT NULL,
   `jurusan` enum('IPA','IPS') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `program_studi`
+--
+
+INSERT INTO `program_studi` (`id`, `id_universitas`, `nama_prodi`, `grade`, `jurusan`) VALUES
+(1, 1, 'Teknik Informatika', 2, 'IPA'),
+(2, 2, 'Sistem Informasi', 1.5, 'IPA');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `siswa`
+-- Table structure for table `siswa`
 --
 
 CREATE TABLE `siswa` (
@@ -208,22 +278,40 @@ CREATE TABLE `siswa` (
   `username` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`nisn`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `tempat_lahir`, `alamat`, `telepon`, `psikotes`, `jurusan`, `username`) VALUES
+(0, 'wer', 'L', '2018-06-13', 'w', '111', '', 0, 'IPS', ''),
+(111, '', 'L', '0000-00-00', '', '', '', 0, '', ''),
+(123, 'syad', 'L', '2018-06-13', 'kakrtamulia', 'kakrtamulia', '085758612443', 8, 'IPA', 'syad'),
+(11111, 'www', 'P', '2018-06-01', '', '', '', 0, 'IPS', '');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `universitas`
+-- Table structure for table `universitas`
 --
 
 CREATE TABLE `universitas` (
   `id` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL,
+  `nama_uni` varchar(100) NOT NULL,
   `link` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `universitas`
+--
+
+INSERT INTO `universitas` (`id`, `nama_uni`, `link`) VALUES
+(1, 'UI', 'https://www.ui.ac.id'),
+(2, 'UNSRI', 'unsri.ac.id');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -303,6 +391,13 @@ ALTER TABLE `nilai_jurusan`
   ADD KEY `id_bobot` (`id_bobot`);
 
 --
+-- Indexes for table `nilai_umum`
+--
+ALTER TABLE `nilai_umum`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_bobot` (`id_bobot`);
+
+--
 -- Indexes for table `peringkat`
 --
 ALTER TABLE `peringkat`
@@ -365,13 +460,13 @@ ALTER TABLE `hasil_kuisioner`
 -- AUTO_INCREMENT for table `jenis_lomba`
 --
 ALTER TABLE `jenis_lomba`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jenjang_prestasi`
 --
 ALTER TABLE `jenjang_prestasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kelas`
@@ -383,7 +478,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `kuisioner`
 --
 ALTER TABLE `kuisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `mata_lomba`
@@ -401,13 +496,19 @@ ALTER TABLE `mata_pelajaran`
 -- AUTO_INCREMENT for table `nilai_jurusan`
 --
 ALTER TABLE `nilai_jurusan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `nilai_umum`
+--
+ALTER TABLE `nilai_umum`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `peringkat`
 --
 ALTER TABLE `peringkat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `prestasi`
@@ -419,13 +520,13 @@ ALTER TABLE `prestasi`
 -- AUTO_INCREMENT for table `program_studi`
 --
 ALTER TABLE `program_studi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `universitas`
 --
 ALTER TABLE `universitas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

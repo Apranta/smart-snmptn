@@ -7,7 +7,7 @@
                         <div class="col-lg-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <?= $title ?>
+                                    Data Manager
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body">
@@ -15,51 +15,48 @@
                                         tr th, tr td {text-align: center; padding: 1%;}
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
-                                    
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i> Tambah</button><hr>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>NISN</th>
-                                                <th>Nama</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>                                        
-                                                <th>Detail</th>
+                                                <th>Pertanyaan</th>
+                                                <th>Jawaban</th>                                 
+                                                <th>Aksi</th>
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; foreach($siswa as $row): ?>
+                                            <?php $i=1; foreach($kuisioner as $row): ?>
                                             <tr>
+                                            	<?php explode(',', $row->jawaban); var_dump($r) ?>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
-                                                <td><?= $row->nisn ?></td>
-                                                <td><?= $row->nama ?></td>
-                                                <td><?= $row->jenis_kelamin ?></td>
-                                                <td><?= $row->tanggal_lahir ?></td>                                                
+                                                <td><?= $row->pertanyaan ?></td>
+                                                <td>
+                                                	<select name="jawaban">
+                                                		<?php for ($i=0; $i < count($row->jawaban); $i++) { ?> 
+                                                			<option value="<?= $row->jawaban[$i] ?>">
+                                                				<?= $row->jawaban[$i] ?>
+                                                			</option>
+                                                		<?php } ?>
+                                                	</select>
+                                                </td> 
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->nisn )?>" class="btn btn-xs" >Detail Siswa</a>
+                                                <a href="<?= base_url( 'admin/data_kuisioner/delete/'.$row->id )?>" class="btn btn-xs" >Hapus</a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>
                                         </tbody>
                                     </table>
                                     <!-- /.table-responsive -->
-                                    tambah data
-                                    <?= form_open( 'admin/tambah_siswa', [ 'class' => 'form-inline'] ) ?>
-                                        <div class="form-group">
-                                            <input type="text" name="nisn" placeholder="nisn" class="form-control">    
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="nama" placeholder="nama" class="form-control">    
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="radio-inline"><input type="radio" name="jenis_kelamin" value="L">Laki-Laki</label>    
-                                            <label class="radio-inline"><input type="radio" name="jenis_kelamin" value="P">Perempuan</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="date" name="tanggal_lahir" placeholder="tanggal_lahir" class="form-control">    
-                                        </div>    
-                                        <input type="submit" name="submit" value="simpan" class="btn btn-primary">
+                                    
+                                    <?= form_open( 'admin/tambah_siswa' ) ?>
+                                        <input type="text" name="nisn">
+                                        <input type="text" name="nama">
+                                        <input type="radio" name="jenis_kelamin" value="L">Laki-Laki
+                                        <input type="radio" name="jenis_kelamin" value="P">Perempuan
+                                        <input type="date" name="tanggal_lahir">
+                                        <input type="submit" name="submit" value="simpan">
                                     <?= form_close() ?>
                                 </div>
                                 <!-- /.panel-body -->

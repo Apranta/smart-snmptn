@@ -19,25 +19,28 @@
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>NISN</th>
-                                                <th>Nama</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>                                        
-                                                <th>Detail</th>
+                                                <th>No</th>                                              
+                                                <th>Nama Program Studi</th>
+                                                <th>Jurusan</th>
+                                                <th>Universitas</th>
+                                                <th>Grade</th>
+                                                <th>Aksi</th>
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; foreach($siswa as $row): ?>
+                                            <?php $i=1; foreach($program_studi as $row): ?>
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
-                                                <td><?= $row->nisn ?></td>
-                                                <td><?= $row->nama ?></td>
-                                                <td><?= $row->jenis_kelamin ?></td>
-                                                <td><?= $row->tanggal_lahir ?></td>                                                
+                                                
+                                                <td><?= $row->nama_prodi ?></td>
+                                                <td><?= $row->jurusan ?></td>
+                                                <td><?= $row->nama_uni ?></td>
+                                                <td><?= $row->grade ?></td>
+                                                                                                
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->nisn )?>" class="btn btn-xs" >Detail Siswa</a>
+                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
+                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>
@@ -45,20 +48,28 @@
                                     </table>
                                     <!-- /.table-responsive -->
                                     tambah data
-                                    <?= form_open( 'admin/tambah_siswa', [ 'class' => 'form-inline'] ) ?>
+                                    <?= form_open( 'admin/tambah_universitas', [ 'class' => 'form-inline'] ) ?>
                                         <div class="form-group">
-                                            <input type="text" name="nisn" placeholder="nisn" class="form-control">    
+                                            <input type="text" name="nama_prodi" placeholder="nama prodi" class="form-control">   
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" name="nama" placeholder="nama" class="form-control">    
+                                            <select name="jurusan" class="form-control">
+                                                <option value="1">IPA</option>
+                                                <option value="2">IPS</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="radio-inline"><input type="radio" name="jenis_kelamin" value="L">Laki-Laki</label>    
-                                            <label class="radio-inline"><input type="radio" name="jenis_kelamin" value="P">Perempuan</label>
+                                            <select name="id_universitas" class="form-control">
+                                                <?php foreach($universitas as $r): ?>
+                                                    <option value="<?= $r->id ?>"><?= $r->nama_uni ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="date" name="tanggal_lahir" placeholder="tanggal_lahir" class="form-control">    
-                                        </div>    
+                                            <input type="number" name="grade" placeholder="grade" class="form-control">   
+                                        </div>
+                                        
+                                        
                                         <input type="submit" name="submit" value="simpan" class="btn btn-primary">
                                     <?= form_close() ?>
                                 </div>

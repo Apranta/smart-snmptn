@@ -9,6 +9,7 @@ class Admin extends MY_Controller
         parent::__construct();
         $this->data['username']      = 'syad';
         $this->data['role']  = 1;
+        $this->session->set_userdata(['role' => 1]);
         // $this->data['username']      = $this->session->userdata('username');
         // $this->data['role']  = $this->session->userdata('role');
         // if (!isset($this->data['username'], $this->data['role']))
@@ -23,6 +24,7 @@ class Admin extends MY_Controller
         //     redirect('login');
         //     exit;
         // }
+
     }
  
     public function index()
@@ -47,7 +49,7 @@ class Admin extends MY_Controller
         $this->data[ 'siswa' ]        = $this->siswa_m->get();
         $this->data[ 'title' ]        = 'Data Siswa';
         $this->data[ 'content' ]      = 'admin/siswa_data';
-        $this->template($this->data);
+        $this->template($this->data, 'admin');
     }
 
 
@@ -105,20 +107,25 @@ class Admin extends MY_Controller
     {
         $this->load->model( 'universitas_m' );
         $this->data[ 'universitas' ]= $this->universitas_m->get();
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->data['title']        = 'Data Universitas';
+        $this->data['content']      = 'admin/universitas_data';
         $this->template($this->data);
     }
 
     public function data_program_studi($value='')
     {
+        $this->load->model('universitas_m');
+        $this->load->model('program_studi_m');
         $id_univ = $this->uri->segment(3);
-        if (!isset($id_univ)) {
+        if (isset($id_univ)) {
             redirect('admin/data_universitas','refresh');
             exit;
         }
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+
+        $this->data['program_studi']= $this->program_studi_m->getDataJoin([ 'universitas' ], [ 'program_studi.id_universitas=universitas.id' ]);
+        $this->data['universitas']  = $this->universitas_m->get();
+        $this->data['title']        = 'Daftar Program Studi';
+        $this->data['content']      = 'admin/program_studi_daftar';
         $this->template($this->data);
     }
 
@@ -131,8 +138,11 @@ class Admin extends MY_Controller
 
     public function data_kuisioner($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model( 'kuisioner_m' );
+        $this->data['kuisioner']    = $this->kuisioner_m->get();
+        //$this->dump($this->data['kuisioner'][0]->jawaban); exit;
+        $this->data['title']        = 'Data Kuisioner';
+        $this->data['content']      = 'admin/kuisioner_data';
         $this->template($this->data);
     }
 
