@@ -7,33 +7,26 @@ class Siswa extends MY_Controller
 	public function __construct()
     {
         parent::__construct();
-        $this->data['username']   = '111';
-        $this->data['nama']   = 'syad';
-        $this->data['nisn'] = 111;
-        $this->data['role'] = 2;
-        $array = array(
-            'role' => 2
-        );
-        
-        $this->session->set_userdata( $array );
-        // $this->data['username']   = $this->session->userdata('username');
-        // $this->data['role']       = $this->session->userdata('role');
-        // if (!isset($this->data['username'], $this->data['role']))
-        // {
-        //     $this->session->sess_destroy();
-        //     redirect('login');
-        //     exit;
-        // }
-        // if ($this->data['role'] != 2)
-        // {
-        //     $this->session->sess_destroy();
-        //     redirect('login');
-        //     exit;
-        // }
+        $this->data['username']   = $this->session->userdata('username');
+        $this->data['role']       = $this->session->userdata('role');
+        if (!isset($this->data['username'], $this->data['role']))
+        {
+            $this->session->sess_destroy();
+            redirect('login');
+            exit;
+        }
+        if ($this->data['role'] != 2)
+        {
+            $this->session->sess_destroy();
+            redirect('login');
+            exit;
+        }
     }
 
     public function index($value='')
     {
+        $this->load->model('siswa_m');
+        $this->data['siswa']        = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
     	$this->data['title']        = 'Dashboard Siswa';
         $this->data['content']      = 'siswa/dashboard';
         $this->template($this->data);
@@ -42,7 +35,7 @@ class Siswa extends MY_Controller
     public function profile($value='')
     {
         $this->load->model( 'siswa_m' );
-        $this->data[ 'siswa' ]      = $this->siswa_m->get_row([ 'nisn' => $this->data[ 'username' ] ]);
+        $this->data[ 'siswa' ]      = $this->siswa_m->get_row([ 'username' => $this->data[ 'username' ] ]);
     	$this->data[ 'title' ]      = 'Data Siswa';
         $this->data[ 'content' ]    = 'siswa/profile';
         $this->template($this->data);
@@ -62,22 +55,19 @@ class Siswa extends MY_Controller
             ];
             $this->siswa_m->update($this->data['username'] ,$this->data['siswa']);
             $this->flashmsg('data berhasil disimpan');
-            redirect(base_url('siswa/profile'));
+            redirect('siswa/profile');
             exit;
         }
-        redirect(base_url('siswa/profile'));
+        redirect('siswa/profile');
     }
 
     public function data_prestasi($value='')
     {
         $this->load->model('prestasi_m');
-        $this->load->model('peringkat_m');
-        $this->load->model('mata_lomba_m');
-        $this->load->model('jenis_lomba_m');
-        $this->data['prestasi']     = $this->prestasi_m->get_row([ 'nisn' => $this->data['nisn'] ]);
-        $this->data['peringkat']    = $this->peringkat_m->get_row([ 'id' => $this->data['prestasi']->id_peringkat ]);
-        $this->data['mata_lomba']   = $this->mata_lomba_m->get_row([ 'id' => $this->data['prestasi']->mata_lomba ]);
-        $this->data['jenis_lomba']  = $this->jenis_lomba_m->get_row([ 'id' => $this->data['mata_lomba']->id_jenis ]);
+        
+        $this->data['prestasi']     = $this->prestasi_m->getDataJoin(['mata_lomba','jenis_lomba','peringkat','jenjang_prestasi'],
+            ['mata_lomba.id=prestasi.mata_lomba','jenis_lomba.id=mata_lomba.id_jenis','peringkat.id=prestasi.id_peringkat', 'jenjang_prestasi.id=prestasi.id_jenjang']);
+        
     	$this->data['title']        = 'Data Prestasi Siswa';
         $this->data['content']      = 'siswa/prestasi_data';
         $this->template($this->data);
@@ -85,8 +75,47 @@ class Siswa extends MY_Controller
 
     public function input_prestasi($value='')
     {
-    	$this->data['title']        = 'Dashboard Siswa';
-        $this->data['content']      = 'siswa/dashboard';
+        $this->load->model('peringkat_m');
+        $this->load->model('jenjang_prestasi_m');
+        $this->load->model('jenis_lomba_m');
+
+        if($this->POST('submit')) {
+            $this->load->model('siswa_m');
+            $this->load->model('prestasi_m');
+
+            $this->data['lomba'] = [
+                'mata_lomba'    => $this->POST('nama_lomba'),
+                'id_peringkat'  => $this->POST('peringkat'),
+                'id_jenjang'    => $this->POST('tingkat'),
+                'nisn'          => $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn
+            ];
+            $this->prestasi_m->insert($this->data['lomba']);
+            $this->flashmsg('Tambah Data Lomba Sukses');
+            redirect('siswa/data_prestasi','refresh');
+            exit;
+        }
+
+        $jenis = $this->uri->segment(3);
+        if(!isset($jenis)) {
+            redirect('siswa/data_prestasi','refresh');
+            exit;
+        }
+
+        if($jenis=='akademik') {
+            $this->data['jenis_lomba']  = $this->jenis_lomba_m->getListLomba('mata_lomba', 'mata_lomba.id_jenis=jenis_lomba.id', 'jenis=1');
+            $this->data['title']        = 'Input Prestasi Akademik Siswa';
+            $this->data['content']      = 'siswa/prestasi_akademik_input';
+        }
+
+        if($jenis=='nonakademik') {
+            $this->data['jenis_lomba']  = $this->jenis_lomba_m->getListLomba('mata_lomba', 'mata_lomba.id_jenis=jenis_lomba.id', 'jenis=2');
+            $this->data['title']        = 'Input Prestasi Non Akademik Siswa';
+            $this->data['content']      = 'siswa/prestasi_nonakademik_input';
+        }
+
+        $this->data['peringkat']        = $this->peringkat_m->get();
+        $this->data['jenjang_prestasi'] = $this->jenjang_prestasi_m->get();
+    	
         $this->template($this->data);
     }
 

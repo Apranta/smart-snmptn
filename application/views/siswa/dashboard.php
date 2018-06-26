@@ -10,13 +10,13 @@
                             <!--<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>-->
                         </div>
                         <div class="panel-body">
-                            <p>Selamat datang, <?= $nama ?></p>
+                            <p>Selamat datang, <?= $siswa->nama ?></p>
                             <p>Sistem Pendukung Keputusan Pemilihan Jurusan Seleksi Nasional Masuk Perguruan Tinggi Negeri ini dilakukan dengan metode Simple Multi Attribute Rating Technique (SMART) berdasarkan dengan perhitungan nilai raport siswa, prestasi, minat bakat serta hasil tes psikologi yang telah dilaksanakan.</p>
                         </div>
                         <div class="panel-footer">
-                            <p>Pengisian Data <input type="checkbox" name="nilai" checked></p>
-                            <p>Pengisian Kuisioner <input type="checkbox" name="nilai" ></p>
-                            <p>Pengisian Hitung Nilai <input type="checkbox" name="nilai" ></p>
+                            <p>Pengisian Data <input type="checkbox" name="nilai" checked disabled></p>
+                            <p>Pengisian Kuisioner <input type="checkbox" name="nilai" disabled></p>
+                            <p>Pengisian Hitung Nilai <input type="checkbox" name="nilai" disabled></p>
                         </div>
                     </div>
                 </div>

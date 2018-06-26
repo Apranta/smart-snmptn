@@ -68,57 +68,7 @@
             </div>
         </div>
         
-<div id="tambah" class="modal fade" role="dialog">
-  <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-        <?= form_open('admin/data-admin'); ?>
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Tambah Data</h4>
-          </div>
-          <div class="modal-body">
-            <h4 class="text-center">Data Login</h4>
-            <hr>
-            <div class="form-group label-floating">
-                <label class="control-label">Username</label>
-                <input type="text" name="username" class="form-control">
-            </div>
-            <div class="form-group label-floating">
-                <label class="control-label">Password</label>
-                <input type="password" name="pw" class="form-control">
-            </div>
-            <div class="form-group label-floating">
-                <label class="control-label">Ulangi Password</label>
-                <input type="password" name="repw" class="form-control">
-            </div>
-            <hr>
-            <h4 class="text-center">Data Pribadi</h4>
-            <hr>
-            <div class="form-group label-floating">
-                <label class="control-label">Nama</label>
-                <input type="text" name="nama" class="form-control">
-            </div>
-            <div class="form-group label-floating">
-                <label class="control-label">Divisi</label>
-                <select name="jabatan" class="form-control">
-                    <option value="">== Silahkan PIlih ==</option>
-                    <?php foreach ($this->Jabatan_m->get() as $key): ?>
-                        <option value="<?= $key->id ?>"><?= $key->nama ?></option>
-                    <?php endforeach ?>
-                </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-info" name="insert" value="Tambah Data">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-    </div>
-
-  </div>
-</div>
             <script>
                 $(document).ready(function() {
                     $('.input-group.date').datepicker({format: "yyyy-mm-dd"});
@@ -127,18 +77,4 @@
                         responsive: true
                     });
                 });
-                function _delete(id) {
-                    // alert('aa');
-                    $.ajax({
-                            url: "<?= base_url('admin/data-admin') ?>",
-                            type: 'POST',
-                            data: {
-                                id: id,
-                                delete: true
-                            },
-                            success: function() {
-                                window.location = "<?= base_url('admin/data-admin') ?>";
-                            }
-                        });
-                }
             </script>

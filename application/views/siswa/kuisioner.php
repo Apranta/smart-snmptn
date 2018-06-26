@@ -33,7 +33,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <input type="checkbox" name="setuju"> Saya menyatakan telah mengisi kuisioner dengan keadaan yang sebenarnya.
+                                <input type="checkbox" name="accept" required> Saya menyatakan telah mengisi kuisioner dengan keadaan yang sebenarnya.
                             </div>
 
                             <input type="submit" name="submit" value="simpan" class="btn btn-primary">

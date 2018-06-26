@@ -14,8 +14,17 @@
                 <?php elseif ($this->session->userdata('role') == 2): ?>
                     <ul class="nav">
                         <li><a href="<?= base_url('siswa/') ?>" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
-                        <li><a href="<?= base_url('siswa/profile') ?>" class=""><i class="lnr lnr-user"></i> <span>Data Siswa</span></a></li></li>
-                        <li><a href="<?= base_url('siswa/data_nilai') ?>" class=""><i class="fa fa-file"></i> <span>Data Nilai</span></a></li></li>
+                        <li><a href="<?= base_url('siswa/profile') ?>"><i class="lnr lnr-user"></i> <span>Data Siswa</span></a></li></li>
+                        <li><a href="#"><i class="fa fa-file"></i> <span>Data Nilai</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="<?= base_url('siswa/nilai_jurusan') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Jurusan</span></a>
+                            <li><a href="<?= base_url('siswa/nilai_umum') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Umum</span></a>
+                        </ul>
+                        </li></li>
+
+                        
+
+
                         <li><a href="<?= base_url('siswa/data_prestasi') ?>" class=""><i class="fa fa-file"></i> <span>Data Prestasi</span></a></li></li>
                         <li><a href="<?= base_url('siswa/kuisioner') ?>" class=""><i class="fa fa-table"></i> <span>Kuisioner</span></a></li></li>
                         <li><a href="<?= base_url('siswa/data_universitas') ?>" class=""><i class="fa 

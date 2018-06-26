@@ -35,7 +35,7 @@
 
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <textarea value="<?= $siswa->nisn ?>" name="alamat" class="form-control" required><?= $siswa->nisn ?></textarea>
+                                    <textarea value="<?= $siswa->alamat ?>" name="alamat" class="form-control" required><?= $siswa->alamat ?></textarea>
                                 </div>
 
                                 <div class="form-group">

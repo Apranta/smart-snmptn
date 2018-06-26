@@ -19,7 +19,7 @@ class Login extends MY_Controller
 					redirect('admin');
 					exit;
 				case 2:
-					redirect('direktur');
+					redirect('siswa');
 					exit;
 				case 3:
 					redirect('pegawai');
@@ -42,7 +42,8 @@ class Login extends MY_Controller
 			
 			$this->data = [
 				'username'	=> $this->POST('username'),
-				'password'	=> md5($this->POST('password'))
+				//'password'	=> md5($this->POST('password'))
+				'password'	=> $this->POST('password')
 			];
 
 			$result = $this->login_m->login($this->data['username'], $this->data['password']);
@@ -50,7 +51,7 @@ class Login extends MY_Controller
 			{
 				$this->flashmsg('username atau password salah','danger');
 			}
-			
+
 			redirect('login');
 			exit;
 		}

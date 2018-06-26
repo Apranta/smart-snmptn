@@ -11,16 +11,16 @@
                         </div>
                         <div class="panel-body">
                             <div class="col-lg-10">
-                                <?= form_open('siswa/update_profile', [ 'class' => 'form-inline']) ?>
+                                <?= form_open('siswa/input_nilai', [ 'class' => 'form-inline']) ?>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        Fisika
+                                        <h4 style="color: green; text-align: center;">Fisika</h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h4 style="color: green;">Kimia</h4>
                                     </div>
                                     <div class="col-md-3">
-                                        Kimia
-                                    </div>
-                                    <div class="col-md-4">
-                                        Biologi  
+                                        <h4 style="color: green;">Biologi</h4>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -101,8 +101,8 @@
                                 
                                 
                                 <br><br>
-                                <input type="checkbox" class="form-control" value="ok" name="setuju">Saya menyatakan data ini telah benar. <br>
-                                <input type="submit" name="submit" value="Simpan" class="col-md-offset-3 btn btn-primary">
+                                <input type="checkbox" class="form-control" value="ok" name="setuju" required>Saya menyatakan data ini telah benar. <br>
+                                <input type="submit" name="jurusan" value="Simpan" class="col-md-offset-3 btn btn-primary">
                                 <?= form_close() ?>
                             </div>
                         </div>
