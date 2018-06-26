@@ -51,9 +51,15 @@
                                 </div>                                
 
                                 <div class="form-group">
+                                    <label for="telepon">No. Telepon</label>
+                                    <input type="text" value="<?= $siswa->telepon ?>" name="telepon" class="form-control">
+                                </div>
+
+                                <div class="form-group">
                                     <label for="psikotes">Hasil Psikotes</label>
                                     <input type="number" value="<?= $siswa->psikotes ?>" name="psikotes" class="form-control" required>
                                 </div>
+
 
                                 <input type="submit" name="submit" value="Simpan" class="btn btn-primary">
                                 <?= form_close() ?>

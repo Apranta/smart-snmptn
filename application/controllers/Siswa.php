@@ -9,6 +9,7 @@ class Siswa extends MY_Controller
         parent::__construct();
         $this->data['username']   = '111';
         $this->data['nama']   = 'syad';
+        $this->data['nisn'] = 111;
         $this->data['role'] = 2;
         $array = array(
             'role' => 2
@@ -69,8 +70,16 @@ class Siswa extends MY_Controller
 
     public function data_prestasi($value='')
     {
-    	$this->data['title']        = 'Dashboard Siswa';
-        $this->data['content']      = 'siswa/dashboard';
+        $this->load->model('prestasi_m');
+        $this->load->model('peringkat_m');
+        $this->load->model('mata_lomba_m');
+        $this->load->model('jenis_lomba_m');
+        $this->data['prestasi']     = $this->prestasi_m->get_row([ 'nisn' => $this->data['nisn'] ]);
+        $this->data['peringkat']    = $this->peringkat_m->get_row([ 'id' => $this->data['prestasi']->id_peringkat ]);
+        $this->data['mata_lomba']   = $this->mata_lomba_m->get_row([ 'id' => $this->data['prestasi']->mata_lomba ]);
+        $this->data['jenis_lomba']  = $this->jenis_lomba_m->get_row([ 'id' => $this->data['mata_lomba']->id_jenis ]);
+    	$this->data['title']        = 'Data Prestasi Siswa';
+        $this->data['content']      = 'siswa/prestasi_data';
         $this->template($this->data);
     }
 
@@ -84,7 +93,7 @@ class Siswa extends MY_Controller
     public function data_nilai($value='')
     {
         $this->load->model('nilai_jurusan_m');
-        $this->data['siswa']        = $this->nilai_jurusan_m->get([ 'nisn' => $this->data['siswa'] ]);
+        $this->data['siswa']        = $this->nilai_jurusan_m->get_row([ 'nisn' => $this->data['siswa'] ]);
     	$this->data['title']        = 'Data Nilai Siswa';
         $this->data['content']      = 'siswa/nilai_data';
         $this->template($this->data);
