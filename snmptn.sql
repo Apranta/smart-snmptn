@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 26 Jun 2018 pada 14.47
+-- Generation Time: 28 Jun 2018 pada 01.15
 -- Versi Server: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -76,7 +76,7 @@ CREATE TABLE `jenis_lomba` (
   `id` int(11) NOT NULL,
   `jenis` enum('AKADEMIK','NONAKADEMIK') NOT NULL,
   `jenis_lomba` varchar(100) NOT NULL,
-  `persentase` decimal(11,1) NOT NULL
+  `persentase` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -84,9 +84,8 @@ CREATE TABLE `jenis_lomba` (
 --
 
 INSERT INTO `jenis_lomba` (`id`, `jenis`, `jenis_lomba`, `persentase`) VALUES
-(1, 'AKADEMIK', 'OSN', '0.5'),
-(2, 'AKADEMIK', 'OPSI', '0.5'),
-(3, 'NONAKADEMIK', 'MUSIK', '0.5');
+(1, 'AKADEMIK', 'OSN', 1),
+(2, 'AKADEMIK', 'OPSI', 1);
 
 -- --------------------------------------------------------
 
@@ -98,7 +97,7 @@ CREATE TABLE `jenjang_prestasi` (
   `id` int(11) NOT NULL,
   `nama_jenjang` varchar(100) NOT NULL,
   `bobot` decimal(11,1) NOT NULL,
-  `persentase` decimal(11,1) NOT NULL
+  `persentase` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -106,8 +105,8 @@ CREATE TABLE `jenjang_prestasi` (
 --
 
 INSERT INTO `jenjang_prestasi` (`id`, `nama_jenjang`, `bobot`, `persentase`) VALUES
-(1, 'Internasional', '0.5', '0.5'),
-(2, 'Nasional', '0.5', '0.5');
+(1, 'Internasional', '0.5', 1),
+(2, 'Nasional', '0.5', 1);
 
 -- --------------------------------------------------------
 
@@ -119,6 +118,16 @@ CREATE TABLE `kelas` (
   `id` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `kelas`
+--
+
+INSERT INTO `kelas` (`id`, `nama`) VALUES
+(1, 'kelas x/1'),
+(2, 'kelas x/2'),
+(3, 'kelas xi/1'),
+(5, 'kelas xi/2');
 
 -- --------------------------------------------------------
 
@@ -132,6 +141,14 @@ CREATE TABLE `kuisioner` (
   `jawaban` varchar(255) NOT NULL DEFAULT '[]'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `kuisioner`
+--
+
+INSERT INTO `kuisioner` (`id`, `pertanyaan`, `jawaban`) VALUES
+(5, 'cobar', '["ar","br"]'),
+(6, 'apa anda senang?', '["ya, juga","tidak begitu","gakpeuliwe"]');
+
 -- --------------------------------------------------------
 
 --
@@ -139,7 +156,7 @@ CREATE TABLE `kuisioner` (
 --
 
 CREATE TABLE `mata_lomba` (
-  `id` int(11) NOT NULL,
+  `id_lomba` int(11) NOT NULL,
   `id_jenis` int(11) NOT NULL,
   `nama_lomba` varchar(100) NOT NULL,
   `bobot` decimal(11,1) NOT NULL
@@ -149,10 +166,10 @@ CREATE TABLE `mata_lomba` (
 -- Dumping data untuk tabel `mata_lomba`
 --
 
-INSERT INTO `mata_lomba` (`id`, `id_jenis`, `nama_lomba`, `bobot`) VALUES
+INSERT INTO `mata_lomba` (`id_lomba`, `id_jenis`, `nama_lomba`, `bobot`) VALUES
 (1, 1, 'Matematika', '1.0'),
 (2, 2, 'Fisika', '1.0'),
-(3, 3, 'Solo singer', '0.5');
+(5, 1, 'Biologi', '0.5');
 
 -- --------------------------------------------------------
 
@@ -166,6 +183,14 @@ CREATE TABLE `mata_pelajaran` (
   `persentase` int(11) NOT NULL,
   `jurusan` enum('IPA','IPS','UMUM') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `mata_pelajaran`
+--
+
+INSERT INTO `mata_pelajaran` (`id`, `nama`, `persentase`, `jurusan`) VALUES
+(1, 'biologi', 50, 'IPA'),
+(2, 'fisikaa', 80, 'IPA');
 
 -- --------------------------------------------------------
 
@@ -198,7 +223,8 @@ CREATE TABLE `peringkat` (
 
 INSERT INTO `peringkat` (`id`, `nama_peringkat`, `bobot`) VALUES
 (1, 'Juara 1', '1.0'),
-(2, 'Juara 2', '0.8');
+(2, 'Juara 2', '0.8'),
+(3, 'Juara 3', '0.5');
 
 -- --------------------------------------------------------
 
@@ -213,16 +239,6 @@ CREATE TABLE `prestasi` (
   `id_jenjang` int(11) NOT NULL,
   `nisn` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `prestasi`
---
-
-INSERT INTO `prestasi` (`id`, `mata_lomba`, `id_peringkat`, `id_jenjang`, `nisn`) VALUES
-(2, 2, 2, 2, '111'),
-(3, 2, 1, 1, '111'),
-(4, 2, 2, 1, '111'),
-(5, 3, 1, 1, '111');
 
 -- --------------------------------------------------------
 
@@ -244,7 +260,7 @@ CREATE TABLE `program_studi` (
 
 INSERT INTO `program_studi` (`id`, `id_universitas`, `nama_prodi`, `grade`, `jurusan`) VALUES
 (1, 1, 'Akuntansi', 2.4, 'IPS'),
-(2, 2, 'Sistem Informasi', 3, 'IPA');
+(2, 2, 'Sistem Informasi', 2.2, 'IPA');
 
 -- --------------------------------------------------------
 
@@ -270,7 +286,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`nisn`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `tempat_lahir`, `alamat`, `telepon`, `psikotes`, `jurusan`, `username`) VALUES
-('111', 'syad', 'L', '2018-06-04', 'kartamulia', 'kartamulia kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk', '085758612443', 555, 'IPA', 'syad'),
+('111', '', '', '0000-00-00', '', '', '', 0, '', 'syad'),
 ('222', '', '', '0000-00-00', '', '', '', 0, '', 'baru');
 
 -- --------------------------------------------------------
@@ -291,7 +307,7 @@ CREATE TABLE `universitas` (
 
 INSERT INTO `universitas` (`id`, `nama_uni`, `link`) VALUES
 (1, 'ITB', 'http://itb.ac.id'),
-(2, 'Unsri', 'unsri.ac.id');
+(2, 'Unsrii', 'www.unsri.ac.id');
 
 -- --------------------------------------------------------
 
@@ -312,6 +328,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`username`, `password`, `role`) VALUES
 ('admin', '123', 1),
 ('baru', '123', 2),
+('sagasaga', '1111', 0),
 ('syad', '123', 2);
 
 --
@@ -368,7 +385,7 @@ ALTER TABLE `kuisioner`
 -- Indexes for table `mata_lomba`
 --
 ALTER TABLE `mata_lomba`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_lomba`),
   ADD KEY `id_jenis` (`id_jenis`);
 
 --
@@ -440,12 +457,12 @@ ALTER TABLE `bobot`
 -- AUTO_INCREMENT for table `hasil_kuisioner`
 --
 ALTER TABLE `hasil_kuisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `jenis_lomba`
 --
 ALTER TABLE `jenis_lomba`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `jenjang_prestasi`
 --
@@ -455,22 +472,22 @@ ALTER TABLE `jenjang_prestasi`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `kuisioner`
 --
 ALTER TABLE `kuisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `mata_lomba`
 --
 ALTER TABLE `mata_lomba`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_lomba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `nilai_jurusan`
 --
@@ -480,12 +497,12 @@ ALTER TABLE `nilai_jurusan`
 -- AUTO_INCREMENT for table `peringkat`
 --
 ALTER TABLE `peringkat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `prestasi`
 --
 ALTER TABLE `prestasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `program_studi`
 --
@@ -538,7 +555,7 @@ ALTER TABLE `nilai_jurusan`
 ALTER TABLE `prestasi`
   ADD CONSTRAINT `prestasi_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prestasi_ibfk_2` FOREIGN KEY (`id_peringkat`) REFERENCES `peringkat` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prestasi_ibfk_3` FOREIGN KEY (`mata_lomba`) REFERENCES `mata_lomba` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prestasi_ibfk_3` FOREIGN KEY (`mata_lomba`) REFERENCES `mata_lomba` (`id_lomba`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prestasi_ibfk_4` FOREIGN KEY (`id_jenjang`) REFERENCES `jenjang_prestasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

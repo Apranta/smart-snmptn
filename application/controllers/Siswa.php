@@ -25,8 +25,14 @@ class Siswa extends MY_Controller
 
     public function index($value='')
     {
+        $this->load->model('hasil_kuisioner_m');
         $this->load->model('siswa_m');
+        $this->load->model('nilai_jurusan_m');
+
+        // $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;
         $this->data['siswa']        = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
+        $this->data['nilai']        = $this->nilai_jurusan_m->get([ 'nisn' => $this->data['siswa']->nisn ]);
+        $this->data['kuisioner']    = $this->hasil_kuisioner_m->get([ 'nisn' => $this->data['siswa']->nisn ]);
     	$this->data['title']        = 'Dashboard Siswa';
         $this->data['content']      = 'siswa/dashboard';
         $this->template($this->data);
@@ -180,6 +186,32 @@ class Siswa extends MY_Controller
 
     public function kuisioner($value='')
     {
+        $this->load->model('kuisioner_m');        
+        $this->load->model('siswa_m');
+        $this->load->model('hasil_kuisioner_m');
+
+        if($this->POST('submit')) {
+            
+
+            $soal = array();
+            $soal = $this->POST('soal');
+            $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;
+            foreach ($soal as $key => $value) {
+                $this->data['hasil'] = [
+                    'id_kuisioner'  => $key,
+                    'nisn'          => $nisn,
+                    'jawaban'       => $value
+                ];
+                $this->hasil_kuisioner_m->insert($this->data['hasil']);
+            }
+
+            $this->flashmsg('Kuisioner berhasil disimpan.');
+            redirect('siswa/kuisioner','refresh');
+            exit;
+        }
+        $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;
+        $this->data['hasil']        = $this->hasil_kuisioner_m->get([ 'nisn' => $nisn ]);        
+        $this->data['kuisioner']    = $this->kuisioner_m->get();
         $this->data['title']        = 'Kuisioner';
         $this->data['content']      = 'siswa/kuisioner';
         $this->template($this->data);
