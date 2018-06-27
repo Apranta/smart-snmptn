@@ -15,7 +15,18 @@
                                         tr th, tr td {text-align: center; padding: 1%;}
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
-                                    
+                                    Tambah data
+                                    <?= form_open( 'admin/data_universitas', [ 'class' => 'form-inline'] ) ?>
+                                        <div class="form-group">
+                                            <input type="text" name="nama" placeholder="nama" class="form-control" required>   
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="link" placeholder="link" class="form-control" required>   
+                                        </div>
+                                        
+                                        
+                                        <input type="submit" name="submit" value="simpan" class="btn btn-primary">
+                                    <?= form_close() ?>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
@@ -36,26 +47,15 @@
                                                 <td><a href="<?= $row->link ?>"><?= $row->link ?></a></td>
                                                                                                 
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
+                                                <a href="<?= base_url( 'admin/edit_universitas/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
+                                                <a href="<?= base_url( 'admin/data_universitas/delete/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>
                                         </tbody>
                                     </table>
                                     <!-- /.table-responsive -->
-                                    tambah data
-                                    <?= form_open( 'admin/tambah_universitas', [ 'class' => 'form-inline'] ) ?>
-                                        <div class="form-group">
-                                            <input type="text" name="nama" placeholder="nama" class="form-control">   
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="link" placeholder="link" class="form-control">   
-                                        </div>
-                                        
-                                        
-                                        <input type="submit" name="submit" value="simpan" class="btn btn-primary">
-                                    <?= form_close() ?>
+                                    
                                 </div>
                                 <!-- /.panel-body -->
                             </div>

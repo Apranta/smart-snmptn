@@ -52,7 +52,7 @@
 
                                 <div class="form-group">
                                     <label for="telepon">No. Telepon</label>
-                                    <input type="text" value="<?= $siswa->telepon ?>" name="telepon" class="form-control">
+                                    <input type="text" value="<?= $siswa->telepon ?>" name="telepon" class="form-control"  required>
                                 </div>
 
                                 <div class="form-group">

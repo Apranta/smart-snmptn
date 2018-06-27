@@ -7,23 +7,20 @@ class Admin extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->data['username']      = 'syad';
-        $this->data['role']  = 1;
-        $this->session->set_userdata(['role' => 1]);
-        // $this->data['username']      = $this->session->userdata('username');
-        // $this->data['role']  = $this->session->userdata('role');
-        // if (!isset($this->data['username'], $this->data['role']))
-        // {
-        //     $this->session->sess_destroy();
-        //     redirect('login');
-        //     exit;
-        // }
-        // if ($this->data['role'] != 1)
-        // {
-        //     $this->session->sess_destroy();
-        //     redirect('login');
-        //     exit;
-        // }
+        $this->data['username']      = $this->session->userdata('username');
+        $this->data['role']  = $this->session->userdata('role');
+        if (!isset($this->data['username'], $this->data['role']))
+        {
+            $this->session->sess_destroy();
+            redirect('login');
+            exit;
+        }
+        if ($this->data['role'] != 1)
+        {
+            $this->session->sess_destroy();
+            redirect('login');
+            exit;
+        }
 
     }
  
@@ -37,9 +34,71 @@ class Admin extends MY_Controller
     public function data_admin($value='')
     {
         $this->load->model( 'admin_m' );
+        $this->load->model( 'user_m' );
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->admin_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_admin','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['user'] = [
+                'username'  => $this->POST('username'),
+                'password'  => $this->POST('password')
+            ];
+            $this->data['admin'] = [
+                'username'  => $this->POST('username'),
+                'nama'      => $this->POST('nama'),
+                'jabatan'   => $this->POST('jabatan'),
+                'alamat'    => $this->POST('alamat')
+            ];
+            $this->user_m->insert($this->data['user']);
+            $this->admin_m->insert($this->data['admin']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_admin','refresh');    
+            exit;
+        }
+        
         $this->data[ 'admin' ]        = $this->admin_m->get();
         $this->data[ 'title' ]        = 'Data Admin';
         $this->data[ 'content' ]      = 'admin/admin_data';
+        $this->template( $this->data );
+    }
+
+    public function edit_admin($value='')
+    {
+        $this->load->model( 'admin_m' );
+        $this->load->model( 'user_m' );
+
+        $username =  $this->uri->segment(3);
+        if (!isset($username)) {
+            redirect('admin/data_admin','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['user'] = [                
+                'password'  => $this->POST('password')
+            ];
+            $this->data['admin'] = [                
+                'nama'      => $this->POST('nama'),
+                'jabatan'   => $this->POST('jabatan'),
+                'alamat'    => $this->POST('alamat')
+            ];
+            $this->user_m->update($username,$this->data['user']);
+            $this->admin_m->update($username,$this->data['admin']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_admin','refresh');    
+            exit;
+        }
+
+        $this->data[ 'admin' ]        = $this->admin_m->getAdmin($username);
+        $this->data[ 'title' ]        = 'Edit Admin';
+        $this->data[ 'content' ]      = 'admin/admin_edit';
         $this->template( $this->data );
     }
 
@@ -106,9 +165,56 @@ class Admin extends MY_Controller
     public function data_universitas($value='')
     {
         $this->load->model( 'universitas_m' );
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->universitas_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_universitas','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['universitas']  = [
+                'nama_uni'     => $this->POST('nama'),
+                'link'         => $this->POST('link')
+            ];
+            $this->universitas_m->insert($this->data['universitas']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_universitas','refresh');
+            exit;
+        }
         $this->data[ 'universitas' ]= $this->universitas_m->get();
         $this->data['title']        = 'Data Universitas';
         $this->data['content']      = 'admin/universitas_data';
+        $this->template($this->data);
+    }
+
+    public function edit_universitas($value='')
+    {
+        $this->load->model('universitas_m');
+
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_universitas','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['universitas'] = [
+                'nama_uni'     => $this->POST('nama'),
+                'link'         => $this->POST('link')
+            ];
+            $this->universitas_m->update($id, $this->data['universitas']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/edit_universitas','refresh');    
+            exit;
+        }
+        
+        $this->data[ 'universitas' ]= $this->universitas_m->get_row([ 'id' => $id ]);
+        $this->data['title']        = 'Edit Data Universitas';
+        $this->data['content']      = 'admin/universitas_edit';
         $this->template($this->data);
     }
 
@@ -116,9 +222,25 @@ class Admin extends MY_Controller
     {
         $this->load->model('universitas_m');
         $this->load->model('program_studi_m');
-        $id_univ = $this->uri->segment(3);
-        if (isset($id_univ)) {
-            redirect('admin/data_universitas','refresh');
+        $del = $this->uri->segment(3);
+        if (isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->program_studi_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_program_studi','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['program_studi'] = [
+                'id_universitas'    => $this->POST('id_universitas'),
+                'nama_prodi'        => $this->POST('nama_prodi'),
+                'grade'             => $this->POST('grade'),
+                'jurusan'           => $this->POST('jurusan')
+            ];
+            $this->program_studi_m->insert($this->data['program_studi']);
+            $this->flashmsg('Berhasil tambah data');
+            redirect('admin/data_program_studi','refresh');
             exit;
         }
 
@@ -126,6 +248,36 @@ class Admin extends MY_Controller
         $this->data['universitas']  = $this->universitas_m->get();
         $this->data['title']        = 'Daftar Program Studi';
         $this->data['content']      = 'admin/program_studi_daftar';
+        $this->template($this->data);
+    }
+
+    public function edit_program_studi($value='')
+    {
+        $this->load->model('program_studi_m');
+        $this->load->model('universitas_m');
+        $id = $this->uri->segment(3);
+        if(!isset($id)) {
+            redirect('admin/program_studi','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['program_studi'] = [
+                'id_universitas'    => $this->POST('id_universitas'),
+                'nama_prodi'        => $this->POST('nama_prodi'),
+                'grade'             => $this->POST('grade'),
+                'jurusan'           => $this->POST('jurusan')
+            ];
+            $this->program_studi_m->update($id, $this->data['program_studi']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_program_studi','refresh');
+            exit;
+        }
+
+        $this->data['program_studi']= $this->program_studi_m->get_row([ 'id' => $id ]);
+        $this->data['universitas']  = $this->universitas_m->get();
+        $this->data['title']        = 'Edit Program Studi';
+        $this->data['content']      = 'admin/program_studi_edit';
         $this->template($this->data);
     }
 

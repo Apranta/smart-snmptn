@@ -35,8 +35,8 @@
                                                 <td><?= $row->nama ?></td>
                                                 <td><?= $row->jabatan ?></td>                                                
                                                 <td align="center">
-                                                <button class="btn btn-primary btn-xs" onclick="_delete('<?= $row->username ?>')"><i class="glyphicon glyphicon-pencil"></i></button>
-                                                <button class="btn btn-danger btn-xs" onclick="_delete('<?= $row->username ?>')"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <a href="<?= base_url('admin/edit_admin/'. $row->username) ?>" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i></a>
+                                                <a href="<?= base_url('admin/data_admin/delete/'.$row->username) ?>" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>
@@ -63,49 +63,45 @@
         <?= form_open('admin/data-admin'); ?>
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Tambah Data</h4>
+            <h4 class="modal-title">Tambah Data Admin</h4>
           </div>
           <div class="modal-body">
-            <h4 class="text-center">Data Login</h4>
-            <hr>
+            
             <div class="form-group label-floating">
                 <label class="control-label">Username</label>
-                <input type="text" name="username" class="form-control">
+                <input type="text" name="username" class="form-control" required>
             </div>
             <div class="form-group label-floating">
                 <label class="control-label">Password</label>
-                <input type="password" name="pw" class="form-control">
+                <input type="text" name="password" class="form-control" required>
             </div>
-            <div class="form-group label-floating">
-                <label class="control-label">Ulangi Password</label>
-                <input type="password" name="repw" class="form-control">
-            </div>
-            <hr>
-            <h4 class="text-center">Data Pribadi</h4>
-            <hr>
             <div class="form-group label-floating">
                 <label class="control-label">Nama</label>
-                <input type="text" name="nama" class="form-control">
+                <input type="text" name="nama" class="form-control" required>
             </div>
             <div class="form-group label-floating">
-                <label class="control-label">Divisi</label>
-                <select name="jabatan" class="form-control">
-                    <option value="">== Silahkan PIlih ==</option>
-                    <?php foreach ($this->Jabatan_m->get() as $key): ?>
-                        <option value="<?= $key->id ?>"><?= $key->nama ?></option>
-                    <?php endforeach ?>
-                </select>
+                <label class="control-label">Jabatan</label>
+                <input type="text" name="jabatan" class="form-control" required>
             </div>
+            <div class="form-group label-floating">
+                <label class="control-label">Alamat</label>
+                <textarea name="alamat" class="form-control">
+                    
+                </textarea>
+            </div>
+            
           </div>
           <div class="modal-footer">
-            <input type="submit" class="btn btn-info" name="insert" value="Tambah Data">
+            <input type="submit" class="btn btn-info" name="submit" value="Tambah Data">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
-        </form>
+        <?= form_close(); ?>
     </div>
 
   </div>
 </div>
+
+
             <script>
                 $(document).ready(function() {
                     $('.input-group.date').datepicker({format: "yyyy-mm-dd"});

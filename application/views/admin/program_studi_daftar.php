@@ -15,7 +15,31 @@
                                         tr th, tr td {text-align: center; padding: 1%;}
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
-                                    
+                                    Tambah data
+                                    <?= form_open( 'admin/data_universitas', [ 'class' => 'form-inline'] ) ?>
+                                        <div class="form-group">
+                                            <input type="text" name="nama_prodi" placeholder="nama prodi" class="form-control">   
+                                        </div>
+                                        <div class="form-group">
+                                            <select name="jurusan" class="form-control">
+                                                <option value="1">IPA</option>
+                                                <option value="2">IPS</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <select name="id_universitas" class="form-control">
+                                                <?php foreach($universitas as $r): ?>
+                                                    <option value="<?= $r->id ?>"><?= $r->nama_uni ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="number" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" max="10" required> 
+                                        </div>
+                                        
+                                        
+                                        <input type="submit" name="submit" value="simpan" class="btn btn-primary">
+                                    <?= form_close() ?>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
@@ -39,39 +63,15 @@
                                                 <td><?= $row->grade ?></td>
                                                                                                 
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
-                                                <a href="<?= base_url( 'admin/detail_siswa/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
+                                                <a href="<?= base_url( 'admin/edit_program_studi/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
+                                                <a href="<?= base_url( 'admin/data_program_studi/delete/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>
                                         </tbody>
                                     </table>
                                     <!-- /.table-responsive -->
-                                    tambah data
-                                    <?= form_open( 'admin/tambah_universitas', [ 'class' => 'form-inline'] ) ?>
-                                        <div class="form-group">
-                                            <input type="text" name="nama_prodi" placeholder="nama prodi" class="form-control">   
-                                        </div>
-                                        <div class="form-group">
-                                            <select name="jurusan" class="form-control">
-                                                <option value="1">IPA</option>
-                                                <option value="2">IPS</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <select name="id_universitas" class="form-control">
-                                                <?php foreach($universitas as $r): ?>
-                                                    <option value="<?= $r->id ?>"><?= $r->nama_uni ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="number" name="grade" placeholder="grade" class="form-control">   
-                                        </div>
-                                        
-                                        
-                                        <input type="submit" name="submit" value="simpan" class="btn btn-primary">
-                                    <?= form_close() ?>
+                                    
                                 </div>
                                 <!-- /.panel-body -->
                             </div>
