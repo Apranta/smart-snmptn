@@ -16,25 +16,20 @@
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
                                     Tambah data
-                                    <?= form_open( 'admin/data_universitas', [ 'class' => 'form-inline'] ) ?>
+                                    <?= form_open( 'admin/data_mata_pelajaran', [ 'class' => 'form-inline'] ) ?>
                                         <div class="form-group">
-                                            <input type="text" name="nama_prodi" placeholder="nama prodi" class="form-control">   
+                                            <input type="text" name="nama" placeholder="nama" class="form-control" required>   
                                         </div>
+
                                         <div class="form-group">
                                             <select name="jurusan" class="form-control">
                                                 <option value="1">IPA</option>
                                                 <option value="2">IPS</option>
                                             </select>
                                         </div>
+
                                         <div class="form-group">
-                                            <select name="id_universitas" class="form-control">
-                                                <?php foreach($universitas as $r): ?>
-                                                    <option value="<?= $r->id ?>"><?= $r->nama_uni ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="number" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" max="10" required> 
+                                            <input type="number" name="persentase" min="0" max="100" placeholder="%" class="form-control" required>   
                                         </div>
                                         
                                         
@@ -44,27 +39,25 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>                                              
-                                                <th>Nama Program Studi</th>
+                                                <th>Nama</th>
                                                 <th>Jurusan</th>
-                                                <th>Universitas</th>
-                                                <th>Grade</th>
+                                                <th>Persentase</th>                                                                                        
                                                 <th>Aksi</th>
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; foreach($program_studi as $row): ?>
+                                            <?php $i=1; foreach($mapel as $row): ?>
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
                                                 
-                                                <td><?= $row->nama_prodi ?></td>
+                                                <td><?= $row->nama ?></td>
                                                 <td><?= $row->jurusan ?></td>
-                                                <td><?= $row->nama_uni ?></td>
-                                                <td><?= $row->grade ?></td>
+                                                <td><?= $row->persentase.'%' ?></td>                                                
                                                                                                 
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/edit_program_studi/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
-                                                <a href="<?= base_url( 'admin/data_program_studi/delete/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
+                                                <a href="<?= base_url( 'admin/edit_mata_pelajaran/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
+                                                <a href="<?= base_url( 'admin/data_mata_pelajaran/delete/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>

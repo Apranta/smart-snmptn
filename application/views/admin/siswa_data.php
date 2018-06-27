@@ -31,7 +31,7 @@
                                             <input type="date" name="tanggal_lahir" placeholder="tanggal_lahir" class="form-control">    
                                         </div>    
                                         <input type="submit" name="submit" value="simpan" class="btn btn-primary">
-                                    <?= form_close() ?> <br>
+                                    <?= form_close() ?> <hr>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
@@ -49,7 +49,7 @@
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
                                                 <td><?= $row->nisn ?></td>
-                                                <td><?= $row->nama ?></td>
+                                                <td class="col-md-4"><?= $row->nama ?></td>
                                                 <td><?= $row->jenis_kelamin ?></td>
                                                 <td><?= $row->tanggal_lahir ?></td>                                                
                                                 <td align="center">

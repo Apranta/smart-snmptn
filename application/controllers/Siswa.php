@@ -66,7 +66,7 @@ class Siswa extends MY_Controller
         $this->load->model('prestasi_m');
         
         $this->data['prestasi']     = $this->prestasi_m->getDataJoin(['mata_lomba','jenis_lomba','peringkat','jenjang_prestasi'],
-            ['mata_lomba.id=prestasi.mata_lomba','jenis_lomba.id=mata_lomba.id_jenis','peringkat.id=prestasi.id_peringkat', 'jenjang_prestasi.id=prestasi.id_jenjang']);
+            ['mata_lomba.id_lomba=prestasi.mata_lomba','jenis_lomba.id=mata_lomba.id_jenis','peringkat.id=prestasi.id_peringkat', 'jenjang_prestasi.id=prestasi.id_jenjang']);
         
     	$this->data['title']        = 'Data Prestasi Siswa';
         $this->data['content']      = 'siswa/prestasi_data';

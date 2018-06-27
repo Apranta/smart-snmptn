@@ -9,7 +9,13 @@
                         <li><a href="<?= base_url('admin/data_siswa') ?>" class=""><i class="fa fa-table"></i> <span>Data Siswa</span></a></li></li>
                         <li><a href="<?= base_url('admin/data_universitas') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar PTN</span></a></li></li>
                         <li><a href="<?= base_url('admin/data_program_studi') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Program Studi</span></a></li></li>
-                        <!-- <li><a href="<?= base_url('admin/data_kuisioner') ?>" class=""><i class="fa fa-edit"></i> <span>Data Kuisioner</span></a></li></li> -->
+                        <li><a href="<?= base_url('admin/data_kuisioner') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Kuisioner</span></a></li></li>
+                        <li><a href="<?= base_url('admin/data_kelas') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Kelas</span></a></li></li>
+                        <li><a href="<?= base_url('admin/data_mata_pelajaran') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Mata Pelajaran</span></a></li></li>
+                        <li><a href="<?= base_url('admin/data_peringkat') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Peringkat Prestasi</span></a></li></li>
+                        <li><a href="<?= base_url('admin/data_jenjang_prestasi') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Jenjang Prestasi</span></a></li></li>
+                        <li><a href="<?= base_url('admin/data_mata_lomba') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Cabang Lomba</span></a></li></li>
+                        <li><a href="<?= base_url('admin/data_jenis_lomba') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Jenis Lomba</span></a></li></li>
                     </ul>
                 <?php elseif ($this->session->userdata('role') == 2): ?>
                     <ul class="nav">

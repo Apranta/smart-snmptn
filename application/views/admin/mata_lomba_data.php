@@ -16,25 +16,19 @@
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
                                     Tambah data
-                                    <?= form_open( 'admin/data_universitas', [ 'class' => 'form-inline'] ) ?>
+                                    <?= form_open( 'admin/data_mata_lomba', [ 'class' => 'form-inline'] ) ?>
                                         <div class="form-group">
-                                            <input type="text" name="nama_prodi" placeholder="nama prodi" class="form-control">   
+                                            <input type="text" name="nama_lomba" placeholder="nama lomba" class="form-control">   
                                         </div>
                                         <div class="form-group">
-                                            <select name="jurusan" class="form-control">
-                                                <option value="1">IPA</option>
-                                                <option value="2">IPS</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <select name="id_universitas" class="form-control">
-                                                <?php foreach($universitas as $r): ?>
-                                                    <option value="<?= $r->id ?>"><?= $r->nama_uni ?></option>
+                                            <select name="id_jenis" class="form-control">
+                                                <?php foreach($jenis as $r): ?>
+                                                    <option value="<?= $r->id ?>"><?= $r->jenis_lomba ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="number" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" max="10" required> 
+                                            <input type="number" name="bobot" placeholder="bobot" class="form-control" step="0.1" min="0" max="10" required> 
                                         </div>
                                         
                                         
@@ -44,27 +38,25 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>                                              
-                                                <th>Nama Program Studi</th>
-                                                <th>Jurusan</th>
-                                                <th>Universitas</th>
-                                                <th>Grade</th>
-                                                <th>Aksi</th>
+                                                <th>Nama Lomba</th>
+                                                <th>Jenis Lomba</th>
+                                                <th>Bobot</th>
+                                                
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; foreach($program_studi as $row): ?>
+                                            <?php $i=1; foreach($lomba as $row): ?>
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
                                                 
-                                                <td><?= $row->nama_prodi ?></td>
-                                                <td><?= $row->jurusan ?></td>
-                                                <td><?= $row->nama_uni ?></td>
-                                                <td><?= $row->grade ?></td>
+                                                <td><?= $row->nama_lomba ?></td>
+                                                <td><?= $row->jenis_lomba ?></td>
+                                                <td><?= $row->bobot ?></td>                                                
                                                                                                 
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/edit_program_studi/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
-                                                <a href="<?= base_url( 'admin/data_program_studi/delete/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
+                                                <a href="<?= base_url( 'admin/edit_mata_lomba/'.$row->id_lomba )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
+                                                <a href="<?= base_url( 'admin/data_mata_lomba/delete/'.$row->id_lomba )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>

@@ -283,16 +283,76 @@ class Admin extends MY_Controller
 
     public function data_mata_pelajaran($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model('mata_pelajaran_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->mata_pelajaran_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_mata_pelajaran','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['mapel']  = [
+                'nama'          => $this->POST('nama'),
+                'persentase'    => $this->POST('persentase'),
+                'jurusan'       => $this->POST('jurusan')
+            ];
+            $this->mata_pelajaran_m->insert($this->data['mapel']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_mata_pelajaran','refresh');
+            exit;
+        }
+        $this->data['mapel' ]       = $this->mata_pelajaran_m->get();
+        $this->data['title']        = 'Daftar Mata Pelajaran';
+        $this->data['content']      = 'admin/mata_pelajaran_data';
+        $this->template($this->data);
+    }
+
+    public function edit_mata_pelajaran($value='')
+    {
+        $this->load->model('mata_pelajaran_m');
+
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_mata_pelajaran','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['mapel']  = [
+                'nama'          => $this->POST('nama'),
+                'persentase'    => $this->POST('persentase'),
+                'jurusan'       => $this->POST('jurusan')
+            ];
+            $this->mata_pelajaran_m->update($id,$this->data['mapel']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_mata_pelajaran','refresh');
+            exit;
+        }
+        
+        $this->data['mapel' ]       = $this->mata_pelajaran_m->get_row([ 'id' => $id ]);
+        $this->data['title']        = 'Edit Mata Pelajaran';
+        $this->data['content']      = 'admin/mata_pelajaran_edit';
         $this->template($this->data);
     }
 
     public function data_kuisioner($value='')
     {
         $this->load->model( 'kuisioner_m' );
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->kuisioner_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_kuisioner','refresh');
+            exit;
+        }
+
         $this->data['kuisioner']    = $this->kuisioner_m->get();
-        //$this->dump($this->data['kuisioner'][0]->jawaban); exit;
+        //$this->dump($this->data['kuisioner']);exit;
         $this->data['title']        = 'Data Kuisioner';
         $this->data['content']      = 'admin/kuisioner_data';
         $this->template($this->data);
@@ -300,78 +360,311 @@ class Admin extends MY_Controller
 
     public function tambah_kuisioner($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        if ($this->POST('submit')) {
+            $this->load->model('kuisioner_m');
+            $this->data['kuisioner'] = [
+                'pertanyaan'    => $this->POST('pertanyaan'),
+                'jawaban'       => json_encode($this->POST('jawaban'))
+            ];
+            $this->kuisioner_m->insert($this->data['kuisioner']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_kuisioner','refresh');
+            exit;
+        }
+        $this->data['title']        = 'Tambah Kuisioner';
+        $this->data['content']      = 'admin/kuisioner_tambah';
         $this->template($this->data);
     }
 
     public function data_kelas($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model('kelas_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->kelas_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_kelas','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['data']  = [
+                'nama'          => $this->POST('nama'),
+            ];
+            $this->kelas_m->insert($this->data['data']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_kelas','refresh');
+            exit;
+        }
+
+        $this->data['kelas' ]       = $this->kelas_m->get();
+        $this->data['title']        = 'Daftar Kelas';
+        $this->data['content']      = 'admin/kelas_data';
         $this->template($this->data);
     }
 
-    public function tambah_kelas($value='')
+    public function edit_kelas($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
-        $this->template($this->data);
-    }
+        $this->load->model('kelas_m');
 
-    public function tambah_peringkat($value='')
-    {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_kelas','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['data']  = [
+                'nama'          => $this->POST('nama'),
+            ];
+            $this->kelas_m->update($id,$this->data['data']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_kelas','refresh');
+            exit;
+        }
+        
+        $this->data['kelas' ]       = $this->kelas_m->get_row([ 'id' => $id ]);
+        $this->data['title']        = 'Edit Mata Pelajaran';
+        $this->data['content']      = 'admin/kelas_edit';
         $this->template($this->data);
     }
 
     public function data_peringkat($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model('peringkat_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->peringkat_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_peringkat','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['data']  = [
+                'nama_peringkat'   => $this->POST('nama_peringkat'),
+                'bobot'            => $this->POST('bobot')
+            ];
+            $this->peringkat_m->insert($this->data['data']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_peringkat','refresh');
+            exit;
+        }
+
+        $this->data['peringkat' ]   = $this->peringkat_m->get();
+        $this->data['title']        = 'Daftar Peringkat Prestasi';
+        $this->data['content']      = 'admin/peringkat_data';
+        $this->template($this->data);
+    }
+
+    public function edit_peringkat($value='')
+    {
+        $this->load->model('peringkat_m');
+
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_peringkat','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['data']  = [
+                'nama_peringkat'   => $this->POST('nama_peringkat'),
+                'bobot'            => $this->POST('bobot')
+            ];
+            $this->peringkat_m->update($id,$this->data['data']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_peringkat','refresh');
+            exit;
+        }
+        
+        $this->data['peringkat' ]   = $this->peringkat_m->get_row([ 'id' => $id ]);
+        $this->data['title']        = 'Edit Mata Pelajaran';
+        $this->data['content']      = 'admin/peringkat_edit';
         $this->template($this->data);
     }
 
     public function data_jenjang_prestasi($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model('jenjang_prestasi_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->jenjang_prestasi_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_jenjang_prestasi','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['data']  = [
+                'nama_jenjang'     => $this->POST('nama_jenjang'),
+                'bobot'            => $this->POST('bobot'),
+                'persentase'       => $this->POST('persentase')
+            ];
+            $this->jenjang_prestasi_m->insert($this->data['data']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_jenjang_prestasi','refresh');
+            exit;
+        }
+
+        $this->data['jenjang']     = $this->jenjang_prestasi_m->get();
+        $this->data['title']        = 'Daftar Jenjang Prestasi';
+        $this->data['content']      = 'admin/jenjang_prestasi_data';
+        $this->template($this->data);
+    }
+
+    public function edit_jenjang_prestasi($value='')
+    {
+        $this->load->model('jenjang_prestasi_m');
+
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_jenjang_prestasi','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['data']  = [
+                'nama_jenjang'     => $this->POST('nama_jenjang'),
+                'bobot'            => $this->POST('bobot'),
+                'persentase'       => $this->POST('persentase')
+            ];
+            $this->jenjang_prestasi_m->update($id,$this->data['data']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_jenjang_prestasi','refresh');
+            exit;
+        }
+        
+        $this->data['jenjang']     = $this->jenjang_prestasi_m->get_row([ 'id' => $id ]);
+        $this->data['title']        = 'Edit Mata Pelajaran';
+        $this->data['content']      = 'admin/jenjang_prestasi_edit';
         $this->template($this->data);
     }
 
     public function data_jenis_lomba($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model('jenis_lomba_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->jenis_lomba_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_jenis_lomba','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['data']  = [
+                'jenis'            => $this->POST('jenis'),
+                'jenis_lomba'      => $this->POST('jenis_lomba'),
+                'persentase'       => $this->POST('persentase')
+            ];
+            $this->jenis_lomba_m->insert($this->data['data']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_jenis_lomba','refresh');
+            exit;
+        }
+
+        $this->data['jenis']      = $this->jenis_lomba_m->get();
+        $this->data['title']        = 'Daftar Jenis Lomba';
+        $this->data['content']      = 'admin/jenis_lomba_data';
         $this->template($this->data);
     }
 
+    public function edit_jenis_lomba($value='')
+    {
+        $this->load->model('jenis_lomba_m');
+
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_jenis_lomba','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['data']  = [
+                'jenis'            => $this->POST('jenis'),
+                'jenis_lomba'      => $this->POST('jenis_lomba'),
+                'persentase'       => $this->POST('persentase')
+            ];
+            $this->jenis_lomba_m->update($id,$this->data['data']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_jenis_lomba','refresh');
+            exit;
+        }
+        
+        $this->data['jenis']        = $this->jenis_lomba_m->get_row([ 'id' => $id ]);
+        $this->data['title']        = 'Edit Jenis Lomba';
+        $this->data['content']      = 'admin/jenis_lomba_edit';
+        $this->template($this->data);
+    }
     public function data_mata_lomba($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        $this->load->model('mata_lomba_m');
+        $this->load->model('jenis_lomba_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->mata_lomba_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_mata_lomba','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['data']  = [
+                'nama_lomba'       => $this->POST('nama_lomba'),
+                'id_jenis'         => $this->POST('id_jenis'),
+                'bobot'            => $this->POST('bobot')                
+            ];
+            $this->mata_lomba_m->insert($this->data['data']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_mata_lomba','refresh');
+            exit;
+        }
+
+        $this->data['lomba']        = $this->mata_lomba_m->getDataJoin(['jenis_lomba'],['jenis_lomba.id=mata_lomba.id_jenis']);  
+        $this->data['jenis']        = $this->jenis_lomba_m->get();
+        $this->data['title']        = 'Daftar Cabang Lomba';
+        $this->data['content']      = 'admin/mata_lomba_data';
         $this->template($this->data);
     }
 
-    public function tambah_jenjang_prestasi($value='')
+    public function edit_mata_lomba($value='')
     {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
-        $this->template($this->data);
-    }
+        $this->load->model('mata_lomba_m');
+        $this->load->model('jenis_lomba_m');
 
-    public function tambah_jenis_lomba($value='')
-    {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
-        $this->template($this->data);
-    }
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_mata_lomba','refresh');
+            exit;
+        }
 
-    public function tambah_mata_lomba($value='')
-    {
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+        if ($this->POST('edit')) {
+            $this->data['data']  = [
+                'nama_lomba'       => $this->POST('nama_lomba'),
+                'id_jenis'         => $this->POST('id_jenis'),
+                'bobot'            => $this->POST('bobot')                
+            ];
+            $this->mata_lomba_m->update($id,$this->data['data']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_mata_lomba','refresh');
+            exit;
+        }
+        
+        $this->data['lomba']        = $this->mata_lomba_m->get_row([ 'id_lomba' => $id ]);
+        $this->data['jenis']        = $this->jenis_lomba_m->get();        
+        $this->data['title']        = 'Edit Cabang Lomba';
+        $this->data['content']      = 'admin/mata_lomba_edit';
         $this->template($this->data);
     }
 }

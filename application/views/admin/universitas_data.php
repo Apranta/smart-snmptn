@@ -26,7 +26,7 @@
                                         
                                         
                                         <input type="submit" name="submit" value="simpan" class="btn btn-primary">
-                                    <?= form_close() ?>
+                                    <?= form_close() ?> <hr>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
