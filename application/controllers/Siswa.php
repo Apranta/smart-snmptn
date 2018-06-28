@@ -29,7 +29,6 @@ class Siswa extends MY_Controller
         $this->load->model('siswa_m');
         $this->load->model('nilai_jurusan_m');
 
-        // $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;
         $this->data['siswa']        = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
         $this->data['nilai']        = $this->nilai_jurusan_m->get([ 'nisn' => $this->data['siswa']->nisn ]);
         $this->data['kuisioner']    = $this->hasil_kuisioner_m->get([ 'nisn' => $this->data['siswa']->nisn ]);
@@ -136,8 +135,17 @@ class Siswa extends MY_Controller
 
     public function nilai_jurusan($value='')
     {
-        $this->load->model('nilai_jurusan_m');
-        $this->data['siswa']        = $this->nilai_jurusan_m->get();
+        $this->load->model('nilai_jurusan_m');        
+        $this->load->model('bobot_m');
+        $this->load->model('siswa_m');
+        $this->load->model('mata_pelajaran_m');
+
+        $this->data['siswa'] = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
+        $jurusan = $this->data['siswa']->jurusan;
+        $nisn    = $this->data['siswa']->nisn;
+        $this->data['kelas']        = $this->bobot_m->getMapel($jurusan);        
+        $this->data['cek']          = $this->bobot_m->cekJawab($jurusan,$nisn);
+        $this->data['mapel']        = $this->mata_pelajaran_m->get([ 'jurusan' => $jurusan ]);
         $this->data['title']        = 'Data Nilai Jurusan Siswa';
         $this->data['content']      = 'siswa/nilai_data_jurusan';
         $this->template($this->data);
@@ -145,18 +153,49 @@ class Siswa extends MY_Controller
 
     public function nilai_umum($value='')
     {
-        $this->load->model('nilai_jurusan_m');
-        $this->data['siswa']        = $this->nilai_jurusan_m->get();
+        $this->load->model('nilai_jurusan_m');        
+        $this->load->model('bobot_m');
+        $this->load->model('siswa_m');
+        $this->load->model('mata_pelajaran_m');
+
+        $this->data['siswa'] = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
+        $jurusan = 3;
+        $nisn    = $this->data['siswa']->nisn;
+        $this->data['kelas']        = $this->bobot_m->getMapel($jurusan);        
+        $this->data['cek']          = $this->bobot_m->cekJawab($jurusan,$nisn);
+        $this->data['mapel']        = $this->mata_pelajaran_m->get([ 'jurusan' => $jurusan ]);
         $this->data['title']        = 'Data Nilai Umum Siswa';
         $this->data['content']      = 'siswa/nilai_data_umum';
         $this->template($this->data);
     }
 
     public function input_nilai($value='')
-    {
-    	$this->data['title']        = 'Dashboard Siswa';
-        $this->data['content']      = 'siswa/dashboard';
-        $this->template($this->data);
+    {        
+        if ($this->POST('submit')) {
+            $this->load->model('siswa_m');
+            $this->load->model('bobot_m');
+            $this->load->model('nilai_jurusan_m');
+
+            $nisn     = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;
+            $kelas    = $this->POST('kelas');            
+            foreach ($kelas as $key => $value) {
+                $this->data['data'] = [
+                    'id_bobot'      => $key,
+                    'nilai'         => $value,
+                    'nisn'          => $nisn
+                ];
+                $this->nilai_jurusan_m->insert($this->data['data']);
+            }
+            $this->flashmsg('Berhasil simpan data.');
+            if ($this->POST('jurusan')) {
+                redirect('siswa/nilai_jurusan','refresh');        
+            } else {
+                redirect('siswa/nilai_umum','refresh');    
+            }
+            
+            exit;            
+        }
+        redirect('siswa','refresh');
     }
 
     public function data_universitas($value='')

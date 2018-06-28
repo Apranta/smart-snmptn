@@ -15,7 +15,7 @@
                         </div>
                         <div class="panel-footer">
                             <p>Pengisian Data <input type="checkbox" name="nilai" <?php if(isset($siswa->jenis_kelamin)) echo "checked"; ?> disabled></p>
-                            <p>Pengisian Kuisioner <input type="checkbox" <?php if(!empty($nilai)) echo "checked"; ?> name="nilai" disabled></p>
+                            <p>Pengisian Kuisioner <input type="checkbox" <?php if(!empty($kuisioner)) echo "checked"; ?> name="nilai" disabled></p>
                             <p>Pengisian Hitung Nilai <input type="checkbox" <?php if(!empty($jurusan)) echo "checked"; ?> name="nilai" disabled></p>
                         </div>
                     </div>

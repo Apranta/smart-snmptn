@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 28 Jun 2018 pada 01.15
+-- Generation Time: 28 Jun 2018 pada 18.46
 -- Versi Server: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -47,11 +47,23 @@ INSERT INTO `admin` (`username`, `nama`, `alamat`, `jabatan`) VALUES
 --
 
 CREATE TABLE `bobot` (
-  `id` int(11) NOT NULL,
+  `id_bobot` int(11) NOT NULL,
   `id_mapel` int(11) NOT NULL,
   `id_kelas` int(11) NOT NULL,
-  `bobot` int(11) NOT NULL
+  `bobot` decimal(11,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `bobot`
+--
+
+INSERT INTO `bobot` (`id_bobot`, `id_mapel`, `id_kelas`, `bobot`) VALUES
+(9, 1, 5, '0.4'),
+(99, 2, 5, '2.0'),
+(101, 4, 5, '0.1'),
+(103, 1, 1, '0.5'),
+(104, 1, 6, '0.8'),
+(989, 8, 5, '2.1');
 
 -- --------------------------------------------------------
 
@@ -65,6 +77,14 @@ CREATE TABLE `hasil_kuisioner` (
   `nisn` varchar(100) NOT NULL,
   `jawaban` varchar(255) NOT NULL DEFAULT '[]'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `hasil_kuisioner`
+--
+
+INSERT INTO `hasil_kuisioner` (`id`, `id_kuisioner`, `nisn`, `jawaban`) VALUES
+(1, 5, '111', 'br'),
+(2, 6, '111', 'tidak begitu');
 
 -- --------------------------------------------------------
 
@@ -116,18 +136,17 @@ INSERT INTO `jenjang_prestasi` (`id`, `nama_jenjang`, `bobot`, `persentase`) VAL
 
 CREATE TABLE `kelas` (
   `id` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL
+  `nama_kelas` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `kelas`
 --
 
-INSERT INTO `kelas` (`id`, `nama`) VALUES
+INSERT INTO `kelas` (`id`, `nama_kelas`) VALUES
 (1, 'kelas x/1'),
-(2, 'kelas x/2'),
-(3, 'kelas xi/1'),
-(5, 'kelas xi/2');
+(5, 'kelas xi/2'),
+(6, 'kelas x/2');
 
 -- --------------------------------------------------------
 
@@ -190,7 +209,10 @@ CREATE TABLE `mata_pelajaran` (
 
 INSERT INTO `mata_pelajaran` (`id`, `nama`, `persentase`, `jurusan`) VALUES
 (1, 'biologi', 50, 'IPA'),
-(2, 'fisikaa', 80, 'IPA');
+(2, 'fisikaa', 80, 'IPA'),
+(4, 'Matematika', 50, 'IPA'),
+(7, 'Bahasa Indonesia', 50, 'UMUM'),
+(8, 'Bahasa Inggris', 50, 'UMUM');
 
 -- --------------------------------------------------------
 
@@ -204,6 +226,18 @@ CREATE TABLE `nilai_jurusan` (
   `nilai` int(11) NOT NULL,
   `nisn` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `nilai_jurusan`
+--
+
+INSERT INTO `nilai_jurusan` (`id`, `id_bobot`, `nilai`, `nisn`) VALUES
+(18, 989, 1, '111'),
+(19, 103, 1, '111'),
+(20, 104, 0, '111'),
+(21, 9, 1, '111'),
+(22, 99, 1, '111'),
+(23, 101, 1, '111');
 
 -- --------------------------------------------------------
 
@@ -286,7 +320,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`nisn`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `tempat_lahir`, `alamat`, `telepon`, `psikotes`, `jurusan`, `username`) VALUES
-('111', '', '', '0000-00-00', '', '', '', 0, '', 'syad'),
+('111', 'syad', 'L', '2018-06-05', 'kartamulia', 'kartamuliakartamuliakartamuliakartamuliakartamuliakartamulia', '085758612443', 555, 'IPA', 'syad'),
 ('222', '', '', '0000-00-00', '', '', '', 0, '', 'baru');
 
 -- --------------------------------------------------------
@@ -345,7 +379,7 @@ ALTER TABLE `admin`
 -- Indexes for table `bobot`
 --
 ALTER TABLE `bobot`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_bobot`),
   ADD KEY `id_mapel` (`id_mapel`),
   ADD KEY `id_kelas` (`id_kelas`);
 
@@ -452,12 +486,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bobot`
 --
 ALTER TABLE `bobot`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_bobot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=990;
 --
 -- AUTO_INCREMENT for table `hasil_kuisioner`
 --
 ALTER TABLE `hasil_kuisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `jenis_lomba`
 --
@@ -472,7 +506,7 @@ ALTER TABLE `jenjang_prestasi`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `kuisioner`
 --
@@ -487,12 +521,12 @@ ALTER TABLE `mata_lomba`
 -- AUTO_INCREMENT for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `nilai_jurusan`
 --
 ALTER TABLE `nilai_jurusan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `peringkat`
 --
@@ -502,7 +536,7 @@ ALTER TABLE `peringkat`
 -- AUTO_INCREMENT for table `prestasi`
 --
 ALTER TABLE `prestasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `program_studi`
 --
@@ -547,7 +581,7 @@ ALTER TABLE `mata_lomba`
 -- Ketidakleluasaan untuk tabel `nilai_jurusan`
 --
 ALTER TABLE `nilai_jurusan`
-  ADD CONSTRAINT `nilai_jurusan_ibfk_1` FOREIGN KEY (`id_bobot`) REFERENCES `bobot` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `nilai_jurusan_ibfk_1` FOREIGN KEY (`id_bobot`) REFERENCES `bobot` (`id_bobot`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `prestasi`

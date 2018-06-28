@@ -86,4 +86,8 @@ class MY_Controller extends CI_Controller
 		}
 		return 0;
 	}
+
+	protected function __generate_random_id() {
+		return mt_rand();
+	}
 }

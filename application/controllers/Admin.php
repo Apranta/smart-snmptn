@@ -351,8 +351,7 @@ class Admin extends MY_Controller
             exit;
         }
 
-        $this->data['kuisioner']    = $this->kuisioner_m->get();
-        //$this->dump($this->data['kuisioner']);exit;
+        $this->data['kuisioner']    = $this->kuisioner_m->get();        
         $this->data['title']        = 'Data Kuisioner';
         $this->data['content']      = 'admin/kuisioner_data';
         $this->template($this->data);
@@ -391,7 +390,7 @@ class Admin extends MY_Controller
 
         if ($this->POST('submit')) {
             $this->data['data']  = [
-                'nama'          => $this->POST('nama'),
+                'nama_kelas'          => $this->POST('nama'),
             ];
             $this->kelas_m->insert($this->data['data']);
             $this->flashmsg('Berhasil tambah data.');
@@ -417,7 +416,7 @@ class Admin extends MY_Controller
 
         if ($this->POST('edit')) {
             $this->data['data']  = [
-                'nama'          => $this->POST('nama'),
+                'nama_kelas'          => $this->POST('nama'),
             ];
             $this->kelas_m->update($id,$this->data['data']);
             $this->flashmsg('Berhasil edit data.');
@@ -482,7 +481,7 @@ class Admin extends MY_Controller
             exit;
         }
         
-        $this->data['peringkat' ]   = $this->peringkat_m->get_row([ 'id' => $id ]);
+        $this->data['peringkat']    = $this->peringkat_m->get_row([ 'id' => $id ]);
         $this->data['title']        = 'Edit Mata Pelajaran';
         $this->data['content']      = 'admin/peringkat_edit';
         $this->template($this->data);
@@ -665,6 +664,73 @@ class Admin extends MY_Controller
         $this->data['jenis']        = $this->jenis_lomba_m->get();        
         $this->data['title']        = 'Edit Cabang Lomba';
         $this->data['content']      = 'admin/mata_lomba_edit';
+        $this->template($this->data);
+    }
+
+    public function data_bobot($value='')
+    {
+        $this->load->model('bobot_m');
+        $this->load->model('mata_pelajaran_m');
+        $this->load->model('kelas_m');
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del == 'delete') {
+            $id = $this->uri->segment(4);
+            $this->bobot_m->delete($id);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_bobot','refresh');
+            exit;
+        }
+
+        if ($this->POST('submit')) {
+            $this->data['data']  = [
+                'id_mapel'         => $this->POST('id_mapel'),
+                'id_kelas'         => $this->POST('id_kelas'),
+                'bobot'            => $this->POST('bobot')                
+            ];
+            $this->bobot_m->insert($this->data['data']);
+            $this->flashmsg('Berhasil tambah data.');
+            redirect('admin/data_bobot','refresh');
+            exit;
+        }
+
+        $this->data['bobot']        = $this->bobot_m->getDataJoin(['mata_pelajaran','kelas'],['mata_pelajaran.id=bobot.id_mapel','kelas.id=bobot.id_kelas']);  
+        $this->data['kelas']        = $this->kelas_m->get();
+        $this->data['mapel']        = $this->mata_pelajaran_m->get();
+        $this->data['title']        = 'Daftar Bobot';
+        $this->data['content']      = 'admin/bobot_data';
+        $this->template($this->data);
+    }
+
+    public function edit_bobot($value='')
+    {
+        $this->load->model('bobot_m');
+        $this->load->model('mata_pelajaran_m');
+        $this->load->model('kelas_m');
+
+        $id =  $this->uri->segment(3);
+        if (!isset($id)) {
+            redirect('admin/data_bobot','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {
+            $this->data['data']  = [
+                'id_mapel'         => $this->POST('id_mapel'),
+                'id_kelas'         => $this->POST('id_kelas'),
+                'bobot'            => $this->POST('bobot')                
+            ];
+            $this->bobot_m->update($id,$this->data['data']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/data_bobot','refresh');
+            exit;
+        }
+        
+        $this->data['bobot']        = $this->bobot_m->get_row([ 'id_bobot' => $id ]);
+        $this->data['kelas']        = $this->kelas_m->get();
+        $this->data['mapel']        = $this->mata_pelajaran_m->get();     
+        $this->data['title']        = 'Edit Bobot';
+        $this->data['content']      = 'admin/bobot_edit';
         $this->template($this->data);
     }
 }

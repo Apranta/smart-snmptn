@@ -41,7 +41,7 @@
                                                 <th>Nama Lomba</th>
                                                 <th>Jenis Lomba</th>
                                                 <th>Bobot</th>
-                                                
+                                                <th>Aksi</th>
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>

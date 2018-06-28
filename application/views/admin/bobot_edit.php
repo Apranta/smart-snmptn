@@ -16,9 +16,25 @@
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
                                
-                                    <?= form_open( 'admin/edit_kelas/'.$kelas->id, [ 'class' => 'form-inline'] ) ?>
+                                    <?= form_open( 'admin/edit_bobot/'.$bobot->id_bobot, [ 'class' => 'form-inline'] ) ?>                                        
+                                        <div class="form-group">                                            
+                                            <?php  
+                                                $w = [];
+                                                foreach ( $kelas as $row ) $w[$row->id] = $row->nama_kelas;
+                                                echo form_dropdown( 'id_kelas', $w, $bobot->id_kelas, [ 'class' => 'form-control', 'required' => 'required' ] );
+                                            ?>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <?php  
+                                                $w = [];
+                                                foreach ( $mapel as $row ) $w[$row->id] = $row->nama;
+                                                echo form_dropdown( 'id_mapel', $w, $bobot->id_mapel, [ 'class' => 'form-control', 'required' => 'required' ] );
+                                            ?>
+                                        </div>
+
                                         <div class="form-group">
-                                            <input type="text" value="<?= $kelas->nama_kelas ?>" name="nama" placeholder="nama" class="form-control" required>   
+                                            <input type="number" value="<?= $bobot->bobot ?>" name="bobot" placeholder="bobot" class="form-control" step="0.1" min="0" max="10" required>   
                                         </div>
                                         
                                         
