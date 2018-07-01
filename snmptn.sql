@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 28 Jun 2018 pada 18.46
+-- Generation Time: 01 Jul 2018 pada 06.31
 -- Versi Server: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -58,12 +58,36 @@ CREATE TABLE `bobot` (
 --
 
 INSERT INTO `bobot` (`id_bobot`, `id_mapel`, `id_kelas`, `bobot`) VALUES
-(9, 1, 5, '0.4'),
-(99, 2, 5, '2.0'),
-(101, 4, 5, '0.1'),
-(103, 1, 1, '0.5'),
-(104, 1, 6, '0.8'),
-(989, 8, 5, '2.1');
+(1000, 1, 1, '0.1'),
+(1001, 7, 6, '0.1'),
+(1002, 1, 9, '0.2'),
+(1003, 1, 10, '0.2'),
+(1004, 1, 11, '0.4'),
+(1005, 2, 1, '0.1'),
+(1006, 2, 6, '0.1'),
+(1007, 2, 9, '0.2'),
+(1008, 2, 10, '0.2'),
+(1009, 2, 11, '0.4'),
+(1010, 9, 1, '0.1'),
+(1011, 9, 6, '0.1'),
+(1012, 9, 9, '0.2'),
+(1013, 9, 10, '0.2'),
+(1014, 9, 11, '0.4'),
+(1015, 4, 1, '0.1'),
+(1016, 4, 6, '0.1'),
+(1017, 4, 9, '0.1'),
+(1018, 4, 10, '0.1'),
+(1019, 4, 11, '0.1'),
+(1020, 7, 1, '0.1'),
+(1021, 8, 6, '0.1'),
+(1022, 8, 9, '0.1'),
+(1023, 7, 10, '0.1'),
+(1024, 7, 11, '0.1'),
+(1025, 8, 1, '0.1'),
+(1026, 1, 6, '0.1'),
+(1027, 7, 9, '0.1'),
+(1028, 8, 10, '0.1'),
+(1029, 8, 11, '0.1');
 
 -- --------------------------------------------------------
 
@@ -83,8 +107,8 @@ CREATE TABLE `hasil_kuisioner` (
 --
 
 INSERT INTO `hasil_kuisioner` (`id`, `id_kuisioner`, `nisn`, `jawaban`) VALUES
-(1, 5, '111', 'br'),
-(2, 6, '111', 'tidak begitu');
+(3, 7, '111', 'maybe'),
+(4, 8, '111', 'ya');
 
 -- --------------------------------------------------------
 
@@ -96,7 +120,7 @@ CREATE TABLE `jenis_lomba` (
   `id` int(11) NOT NULL,
   `jenis` enum('AKADEMIK','NONAKADEMIK') NOT NULL,
   `jenis_lomba` varchar(100) NOT NULL,
-  `persentase` int(11) NOT NULL
+  `persentase` decimal(11,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -104,8 +128,9 @@ CREATE TABLE `jenis_lomba` (
 --
 
 INSERT INTO `jenis_lomba` (`id`, `jenis`, `jenis_lomba`, `persentase`) VALUES
-(1, 'AKADEMIK', 'OSN', 1),
-(2, 'AKADEMIK', 'OPSI', 1);
+(1, 'AKADEMIK', 'OSN', '0.005'),
+(2, 'AKADEMIK', 'OPSI', '0.005'),
+(7, 'NONAKADEMIK', 'MUSIC', '0.005');
 
 -- --------------------------------------------------------
 
@@ -117,7 +142,7 @@ CREATE TABLE `jenjang_prestasi` (
   `id` int(11) NOT NULL,
   `nama_jenjang` varchar(100) NOT NULL,
   `bobot` decimal(11,1) NOT NULL,
-  `persentase` int(11) NOT NULL
+  `persentase` decimal(11,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -125,8 +150,11 @@ CREATE TABLE `jenjang_prestasi` (
 --
 
 INSERT INTO `jenjang_prestasi` (`id`, `nama_jenjang`, `bobot`, `persentase`) VALUES
-(1, 'Internasional', '0.5', 1),
-(2, 'Nasional', '0.5', 1);
+(1, 'Internasional', '1.0', '0.05'),
+(2, 'Nasional', '0.8', '0.05'),
+(3, 'provinsi', '0.6', '0.05'),
+(4, 'kota/kab', '0.4', '0.05'),
+(5, 'sekolah', '0.2', '0.05');
 
 -- --------------------------------------------------------
 
@@ -145,8 +173,10 @@ CREATE TABLE `kelas` (
 
 INSERT INTO `kelas` (`id`, `nama_kelas`) VALUES
 (1, 'kelas x/1'),
-(5, 'kelas xi/2'),
-(6, 'kelas x/2');
+(6, 'kelas x/2'),
+(9, 'kelas xi/1'),
+(10, 'kelas xi/2'),
+(11, 'kelas xii/1');
 
 -- --------------------------------------------------------
 
@@ -165,8 +195,8 @@ CREATE TABLE `kuisioner` (
 --
 
 INSERT INTO `kuisioner` (`id`, `pertanyaan`, `jawaban`) VALUES
-(5, 'cobar', '["ar","br"]'),
-(6, 'apa anda senang?', '["ya, juga","tidak begitu","gakpeuliwe"]');
+(7, 'apa anda serius dengan jurusan yang anda pilih?', '["ya","tidak","maybe"]'),
+(8, 'anda ingin sukses?', '["ya","bisa jadi","tidak"]');
 
 -- --------------------------------------------------------
 
@@ -188,7 +218,8 @@ CREATE TABLE `mata_lomba` (
 INSERT INTO `mata_lomba` (`id_lomba`, `id_jenis`, `nama_lomba`, `bobot`) VALUES
 (1, 1, 'Matematika', '1.0'),
 (2, 2, 'Fisika', '1.0'),
-(5, 1, 'Biologi', '0.5');
+(5, 1, 'Biologi', '0.5'),
+(58, 7, 'SONG', '2.1');
 
 -- --------------------------------------------------------
 
@@ -199,7 +230,7 @@ INSERT INTO `mata_lomba` (`id_lomba`, `id_jenis`, `nama_lomba`, `bobot`) VALUES
 CREATE TABLE `mata_pelajaran` (
   `id` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
-  `persentase` int(11) NOT NULL,
+  `persentase` decimal(11,2) NOT NULL,
   `jurusan` enum('IPA','IPS','UMUM') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -208,11 +239,12 @@ CREATE TABLE `mata_pelajaran` (
 --
 
 INSERT INTO `mata_pelajaran` (`id`, `nama`, `persentase`, `jurusan`) VALUES
-(1, 'biologi', 50, 'IPA'),
-(2, 'fisikaa', 80, 'IPA'),
-(4, 'Matematika', 50, 'IPA'),
-(7, 'Bahasa Indonesia', 50, 'UMUM'),
-(8, 'Bahasa Inggris', 50, 'UMUM');
+(1, 'biologi', '0.10', 'IPA'),
+(2, 'fisika', '0.10', 'IPA'),
+(4, 'Matematika', '0.05', 'UMUM'),
+(7, 'Bahasa Indonesia', '0.05', 'UMUM'),
+(8, 'Bahasa Inggris', '0.05', 'UMUM'),
+(9, 'kimia', '0.10', 'IPA');
 
 -- --------------------------------------------------------
 
@@ -232,12 +264,36 @@ CREATE TABLE `nilai_jurusan` (
 --
 
 INSERT INTO `nilai_jurusan` (`id`, `id_bobot`, `nilai`, `nisn`) VALUES
-(18, 989, 1, '111'),
-(19, 103, 1, '111'),
-(20, 104, 0, '111'),
-(21, 9, 1, '111'),
-(22, 99, 1, '111'),
-(23, 101, 1, '111');
+(33, 1000, 78, '111'),
+(34, 1026, 80, '111'),
+(35, 1002, 84, '111'),
+(36, 1003, 86, '111'),
+(37, 1004, 88, '111'),
+(38, 1005, 75, '111'),
+(39, 1006, 80, '111'),
+(40, 1007, 80, '111'),
+(41, 1008, 80, '111'),
+(42, 1009, 82, '111'),
+(43, 1010, 83, '111'),
+(44, 1011, 85, '111'),
+(45, 1012, 85, '111'),
+(46, 1013, 87, '111'),
+(47, 1014, 88, '111'),
+(48, 1015, 75, '111'),
+(49, 1016, 80, '111'),
+(50, 1017, 84, '111'),
+(51, 1018, 80, '111'),
+(52, 1019, 87, '111'),
+(53, 1020, 77, '111'),
+(54, 1001, 81, '111'),
+(55, 1027, 89, '111'),
+(56, 1023, 90, '111'),
+(57, 1024, 90, '111'),
+(58, 1025, 86, '111'),
+(59, 1021, 88, '111'),
+(60, 1022, 88, '111'),
+(61, 1028, 94, '111'),
+(62, 1029, 95, '111');
 
 -- --------------------------------------------------------
 
@@ -258,7 +314,9 @@ CREATE TABLE `peringkat` (
 INSERT INTO `peringkat` (`id`, `nama_peringkat`, `bobot`) VALUES
 (1, 'Juara 1', '1.0'),
 (2, 'Juara 2', '0.8'),
-(3, 'Juara 3', '0.5');
+(3, 'Juara 3', '0.6'),
+(4, 'harapan', '0.4'),
+(5, 'peserta', '0.2');
 
 -- --------------------------------------------------------
 
@@ -273,6 +331,14 @@ CREATE TABLE `prestasi` (
   `id_jenjang` int(11) NOT NULL,
   `nisn` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `prestasi`
+--
+
+INSERT INTO `prestasi` (`id`, `mata_lomba`, `id_peringkat`, `id_jenjang`, `nisn`) VALUES
+(94, 1, 2, 4, '111'),
+(95, 2, 5, 2, '111');
 
 -- --------------------------------------------------------
 
@@ -320,7 +386,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`nisn`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `tempat_lahir`, `alamat`, `telepon`, `psikotes`, `jurusan`, `username`) VALUES
-('111', 'syad', 'L', '2018-06-05', 'kartamulia', 'kartamuliakartamuliakartamuliakartamuliakartamuliakartamulia', '085758612443', 555, 'IPA', 'syad'),
+('111', 'syad', 'L', '2018-06-05', 'kartamuliaa', 'palembang', '085758612443', 88, 'IPA', 'syad'),
 ('222', '', '', '0000-00-00', '', '', '', 0, '', 'baru');
 
 -- --------------------------------------------------------
@@ -486,57 +552,57 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bobot`
 --
 ALTER TABLE `bobot`
-  MODIFY `id_bobot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=990;
+  MODIFY `id_bobot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1030;
 --
 -- AUTO_INCREMENT for table `hasil_kuisioner`
 --
 ALTER TABLE `hasil_kuisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `jenis_lomba`
 --
 ALTER TABLE `jenis_lomba`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `jenjang_prestasi`
 --
 ALTER TABLE `jenjang_prestasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `kuisioner`
 --
 ALTER TABLE `kuisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `mata_lomba`
 --
 ALTER TABLE `mata_lomba`
-  MODIFY `id_lomba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_lomba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `nilai_jurusan`
 --
 ALTER TABLE `nilai_jurusan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `peringkat`
 --
 ALTER TABLE `peringkat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `prestasi`
 --
 ALTER TABLE `prestasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 --
 -- AUTO_INCREMENT for table `program_studi`
 --

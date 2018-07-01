@@ -26,7 +26,7 @@
                                         </div>
                                         
                                         <div class="form-group">
-                                            <input type="number" value="<?= $jenjang->persentase ?>" name="persentase" min="0" max="100" placeholder="persentase" class="form-control" required>   
+                                            <input type="number" value="<?= ($jenjang->persentase*100) ?>" name="persentase" min="0" max="100" placeholder="persentase" class="form-control" required>   
                                         </div>
                                         
                                         <input type="submit" name="edit" value="simpan" class="btn btn-primary">

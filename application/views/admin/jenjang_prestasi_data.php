@@ -49,7 +49,7 @@
                                                 
                                                 <td><?= $row->nama_jenjang ?></td>
                                                 <td><?= $row->bobot ?></td>
-                                                <td><?= $row->persentase ?></td>
+                                                <td><?= ($row->persentase*100) ?></td>
                                                                                                 
                                                                                                 
                                                 <td align="center">

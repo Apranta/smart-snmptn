@@ -53,7 +53,7 @@
                                                 
                                                 <td><?= $row->nama ?></td>
                                                 <td><?= $row->jurusan ?></td>
-                                                <td><?= $row->persentase.'%' ?></td>                                                
+                                                <td><?php echo ($row->persentase*100).'%'; ?></td>                                                
                                                                                                 
                                                 <td align="center">
                                                 <a href="<?= base_url( 'admin/edit_mata_pelajaran/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>

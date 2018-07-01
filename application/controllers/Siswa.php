@@ -50,15 +50,16 @@ class Siswa extends MY_Controller
     {
     	if ($this->POST('submit')) {
             $this->load->model('siswa_m');
+            $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;            
             $this->data[ 'siswa' ] = [
-                'nama'  => $this->POST('nama'),
+                'nama'          => $this->POST('nama'),
                 'tempat_lahir'  => $this->POST('tempat_lahir'),
                 'tanggal_lahir' => $this->POST('tanggal_lahir'),
                 'alamat'        => $this->POST('alamat'),
                 'jurusan'       => $this->POST('jurusan'),
                 'psikotes'      => $this->POST('psikotes')
             ];
-            $this->siswa_m->update($this->data['username'] ,$this->data['siswa']);
+            $this->siswa_m->update($nisn ,$this->data['siswa']);
             $this->flashmsg('data berhasil disimpan');
             redirect('siswa/profile');
             exit;

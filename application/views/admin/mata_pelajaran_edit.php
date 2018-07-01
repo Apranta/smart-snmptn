@@ -25,16 +25,24 @@
                                                 <?php if ($mapel->jurusan == 'IPA') { ?>
                                                 <option value="1" selected>IPA 
                                                 <option value="2">IPS
+                                                <option value="3">UMUM</option>
                                                 <?php } ?>
 
                                                 <?php if ($mapel->jurusan == 'IPS') { ?>
                                                 <option value="1">IPA 
                                                 <option value="2" selected>IPS
+                                                <option value="3">UMUM</option>
+                                                <?php } ?>
+
+                                                <?php if ($mapel->jurusan == 'UMUM') { ?>
+                                                <option value="1">IPA 
+                                                <option value="2">IPS
+                                                <option value="3" selected>UMUM</option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="number" value="<?= $mapel->persentase ?>" name="persentase" min="0" max="100" placeholder="%" class="form-control" required>   
+                                            <input type="number" value="<?= ($mapel->persentase*100) ?>" name="persentase" step="1" min="0" max="100" placeholder="%" class="form-control" required>   
                                         </div>
                                         
                                         

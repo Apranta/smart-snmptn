@@ -22,5 +22,21 @@ class Bobot_m extends MY_Model
 		$query = $this->db->query($sql, array($jurusan,$nisn));		
 		return $query->result();
 	}
+
+	public function getNilai($nisn, $cond='')
+	{
+		if (isset($cond) && !empty($cond)) {
+			$sql = 'SELECT * FROM `bobot` JOIN mata_pelajaran ON mata_pelajaran.id=bobot.id_mapel JOIN nilai_jurusan ON nilai_jurusan.id_bobot=bobot.id_bobot JOIN kelas ON kelas.id=bobot.id_kelas WHERE nisn=? ? ORDER BY nama, nama_kelas';
+			$query = $this->db->query($sql, array($nisn,$cond));
+		} else {
+			$sql = 'SELECT * FROM `bobot` JOIN mata_pelajaran ON mata_pelajaran.id=bobot.id_mapel JOIN nilai_jurusan ON nilai_jurusan.id_bobot=bobot.id_bobot JOIN kelas ON kelas.id=bobot.id_kelas WHERE nisn=? ORDER BY nama, nama_kelas';
+			$query = $this->db->query($sql, array($nisn));
+		}
+		
+				
+		return $query->result();
+	}
+
+	
 }
 

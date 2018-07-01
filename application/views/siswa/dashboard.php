@@ -14,7 +14,7 @@
                             <p>Sistem Pendukung Keputusan Pemilihan Jurusan Seleksi Nasional Masuk Perguruan Tinggi Negeri ini dilakukan dengan metode Simple Multi Attribute Rating Technique (SMART) berdasarkan dengan perhitungan nilai raport siswa, prestasi, minat bakat serta hasil tes psikologi yang telah dilaksanakan.</p>
                         </div>
                         <div class="panel-footer">
-                            <p>Pengisian Data <input type="checkbox" name="nilai" <?php if(isset($siswa->jenis_kelamin)) echo "checked"; ?> disabled></p>
+                            <p>Pengisian Data <input type="checkbox" name="nilai" <?php if(isset($siswa->psikotes)) echo "checked"; ?> disabled></p>
                             <p>Pengisian Kuisioner <input type="checkbox" <?php if(!empty($kuisioner)) echo "checked"; ?> name="nilai" disabled></p>
                             <p>Pengisian Hitung Nilai <input type="checkbox" <?php if(!empty($jurusan)) echo "checked"; ?> name="nilai" disabled></p>
                         </div>

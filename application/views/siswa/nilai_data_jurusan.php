@@ -35,8 +35,9 @@
                                                     <?php } ?>
                                             </div>
                                         </div>
+
                                     <?php } } ?>
-                                    
+                                    <hr>
                                 <?php endforeach; ?>
                                 
                                 

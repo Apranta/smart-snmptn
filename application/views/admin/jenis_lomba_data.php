@@ -27,7 +27,7 @@
                                         </div>
                                         
                                         <div class="form-group">
-                                            <input type="number" name="persentase" min="0" max="100" placeholder="%" class="form-control" required>   
+                                            <input type="number" name="persentase" step="0.1" min="0" max="100" placeholder="%" class="form-control" required>   
                                         </div>
                                         
                                         <input type="submit" name="submit" value="simpan" class="btn btn-primary">
@@ -50,7 +50,7 @@
                                                 
                                                 <td><?= $row->jenis_lomba ?></td>
                                                 <td><?= $row->jenis ?></td>
-                                                <td><?= $row->persentase ?></td>
+                                                <td><?= ($row->persentase*100).'%' ?></td>
                                                                                                 
                                                                                                 
                                                 <td align="center">

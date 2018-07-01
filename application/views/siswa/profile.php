@@ -10,6 +10,7 @@
                             <!--<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>-->
                         </div>
                         <div class="panel-body">
+                            <?php $this->session->flashdata('msg'); ?>
                             <div class="col-lg-10">
                                 <?= form_open('siswa/update_profile') ?>
                                 

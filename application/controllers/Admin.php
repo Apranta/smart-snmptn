@@ -141,24 +141,85 @@ class Admin extends MY_Controller
         
     }
 
+    public function smart_nilai($nilai)
+    {        
+        $nama ='instance';        
+        $NxB  = 0;
+        $persentase = 0;
+        $data = [];
+        $key=array_keys($nilai);
+        $lastkey=end($key);
+        $i=0;
+        foreach ($nilai as $key) {            
+            if($key->nama == $nama) {
+                $NxB = $NxB + ($key->nilai*$key->bobot);
+                $persentase = $key->persentase;
+                if($i==$lastkey) {
+                    $data[$nama] = $NxB*$persentase;
+                }                
+            } else if($nama!='instance') {
+                $data[$nama] = $NxB*$persentase;
+                $nama = $key->nama;
+                $NxB  = $key->nilai*$key->bobot;
+                $persentase = $key->persentase;
+                $namabefore = $key->nama;
+            } else if($nama='instance') {
+                $nama = $key->nama;
+                $NxB  = $key->nilai*$key->bobot;
+                $persentase = $key->persentase;
+            }
+            $i++;            
+        }
+        return $data;
+    }
+
+    public function smart_prestasi($nilai)
+    {        
+        $NxB=0;
+        $NxB2=0;
+        $data=[];
+        foreach ($nilai as $key) {            
+            $data[$key->nama_peringkat.' '.$key->jenis_lomba.' '.$key->nama_lomba] = ($key->bobot_peringkat * 100) * $key->persentase_peringkat;
+            $data['tingkat '.$key->nama_jenjang]   = ($key->bobot_jenjang * 100) * $key->persentase_jenjang;
+        }
+        return $data;
+    }    
+
     public function detail_siswa($value='')
     {
+        //$this->load->library("Smart/smart");
+
         //disini menampilkan hasil perhitungan siswa dengan metode smart
         /*
-            data prestasi
+            =data prestasi
             data minat bakat
-            data psikotes
-            data siswa
+            =data psikotes
+            =data siswa
             data hasil perhitungan
-            data nilai jurusan dan umum
+            =data nilai jurusan dan umum
         */
+        $this->load->model('bobot_m');
+        $this->load->model('prestasi_m');
+        $this->load->model('siswa_m');
+        $this->load->model('hasil_kuisioner_m');
+
         $nisn = $this->uri->segment(3);
         if (!isset($nisn)) {
             redirect('admin/data_siswa','refresh');
             exit;
         }
-        $this->data['title']        = 'Dashboard Admin';
-        $this->data['content']      = 'admin/dashboard';
+
+
+
+
+        $this->data['siswa']            = $this->siswa_m->get_row([ 'nisn' => $nisn ]);
+        $this->data['nilai_jurusan']    = $this->bobot_m->getNilai($nisn);
+        $this->data['prestasi']         = $this->prestasi_m->getPrestasi($nisn);
+        $this->data['smart_nilai']      = $this->smart_nilai($this->data['nilai_jurusan']);
+        $this->data['smart_prestasi']   = $this->smart_prestasi($this->data['prestasi']);                
+        $this->data['kuisioner']        = $this->hasil_kuisioner_m->getKuisioner($nisn);
+        $this->data['title']            = 'Detail Siswa '.$this->data['siswa']->nisn;
+        $this->data['content']          = 'admin/siswa_detail';
         $this->template($this->data);
     }
 
@@ -297,7 +358,7 @@ class Admin extends MY_Controller
         if ($this->POST('submit')) {
             $this->data['mapel']  = [
                 'nama'          => $this->POST('nama'),
-                'persentase'    => $this->POST('persentase'),
+                'persentase'    => ($this->POST('persentase')/100.0),
                 'jurusan'       => $this->POST('jurusan')
             ];
             $this->mata_pelajaran_m->insert($this->data['mapel']);
@@ -324,7 +385,7 @@ class Admin extends MY_Controller
         if ($this->POST('edit')) {
             $this->data['mapel']  = [
                 'nama'          => $this->POST('nama'),
-                'persentase'    => $this->POST('persentase'),
+                'persentase'    => ($this->POST('persentase')/100.0),
                 'jurusan'       => $this->POST('jurusan')
             ];
             $this->mata_pelajaran_m->update($id,$this->data['mapel']);
@@ -504,7 +565,7 @@ class Admin extends MY_Controller
             $this->data['data']  = [
                 'nama_jenjang'     => $this->POST('nama_jenjang'),
                 'bobot'            => $this->POST('bobot'),
-                'persentase'       => $this->POST('persentase')
+                'persentase'       => ($this->POST('persentase')/100.0)
             ];
             $this->jenjang_prestasi_m->insert($this->data['data']);
             $this->flashmsg('Berhasil tambah data.');
@@ -532,7 +593,7 @@ class Admin extends MY_Controller
             $this->data['data']  = [
                 'nama_jenjang'     => $this->POST('nama_jenjang'),
                 'bobot'            => $this->POST('bobot'),
-                'persentase'       => $this->POST('persentase')
+                'persentase'       => ($this->POST('persentase')/100.0)
             ];
             $this->jenjang_prestasi_m->update($id,$this->data['data']);
             $this->flashmsg('Berhasil edit data.');
@@ -563,7 +624,7 @@ class Admin extends MY_Controller
             $this->data['data']  = [
                 'jenis'            => $this->POST('jenis'),
                 'jenis_lomba'      => $this->POST('jenis_lomba'),
-                'persentase'       => $this->POST('persentase')
+                'persentase'       => ($this->POST('persentase')/100.0)
             ];
             $this->jenis_lomba_m->insert($this->data['data']);
             $this->flashmsg('Berhasil tambah data.');
@@ -591,7 +652,7 @@ class Admin extends MY_Controller
             $this->data['data']  = [
                 'jenis'            => $this->POST('jenis'),
                 'jenis_lomba'      => $this->POST('jenis_lomba'),
-                'persentase'       => $this->POST('persentase')
+                'persentase'       => ($this->POST('persentase')/100.0)
             ];
             $this->jenis_lomba_m->update($id,$this->data['data']);
             $this->flashmsg('Berhasil edit data.');
