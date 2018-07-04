@@ -175,8 +175,6 @@ class Admin extends MY_Controller
 
     public function smart_prestasi($nilai)
     {        
-        $NxB=0;
-        $NxB2=0;
         $data=[];
         foreach ($nilai as $key) {            
             $data[$key->nama_peringkat.' '.$key->jenis_lomba.' '.$key->nama_lomba] = ($key->bobot_peringkat * 100) * $key->persentase_peringkat;
@@ -202,6 +200,7 @@ class Admin extends MY_Controller
         $this->load->model('prestasi_m');
         $this->load->model('siswa_m');
         $this->load->model('hasil_kuisioner_m');
+        $this->load->model('mata_pelajaran_m');
 
         $nisn = $this->uri->segment(3);
         if (!isset($nisn)) {
@@ -218,6 +217,8 @@ class Admin extends MY_Controller
         $this->data['smart_nilai']      = $this->smart_nilai($this->data['nilai_jurusan']);
         $this->data['smart_prestasi']   = $this->smart_prestasi($this->data['prestasi']);                
         $this->data['kuisioner']        = $this->hasil_kuisioner_m->getKuisioner($nisn);
+        $this->data['mata_pelajaran']   = $this->mata_pelajaran_m->get();
+        //$this->dump($this->data['kuisioner']); exit();
         $this->data['title']            = 'Detail Siswa '.$this->data['siswa']->nisn;
         $this->data['content']          = 'admin/siswa_detail';
         $this->template($this->data);

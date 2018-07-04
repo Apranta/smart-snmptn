@@ -69,22 +69,40 @@ class MY_Controller extends CI_Controller
 		echo '</pre>';
 	}
 
-	public function utiliti($nilai)
+	public function utiliti($nilai,$jenis='')
 	{
-		switch ($nilai) {
-			case 1:
-				return 0;
-				break;
-			
-			case 2:
-				return 0.5;
-				break;
-			
-			case 3:
+		if($jenis=='IPA' || $jenis=='IPS') {
+			if($nilai>=8) {
+				return 5;
+			}
+			else if($nilai>=6) {
+				return 4;
+			}
+			else if($nilai>=4) {
+				return 3;
+			}
+			else if($nilai>=2) {
+				return 2;
+			}
+			else {
 				return 1;
-				break;
+			}
 		}
-		return 0;
+		if($nilai>=4) {
+			return 5;
+		}
+		else if($nilai>=3) {
+			return 4;
+		}
+		else if($nilai>=2) {
+			return 3;
+		}
+		else if($nilai>=1) {
+			return 2;
+		}
+		else {
+			return 1;
+		}
 	}
 
 	protected function __generate_random_id() {

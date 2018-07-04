@@ -1,3 +1,41 @@
+<?php 
+ function utiliti($nilai,$jenis='')
+    {
+        if($jenis=='IPA' || $jenis=='IPS') {
+            if($nilai>=8) {
+                return 5;
+            }
+            else if($nilai>=6) {
+                return 4;
+            }
+            else if($nilai>=4) {
+                return 3;
+            }
+            else if($nilai>=2) {
+                return 2;
+            }
+            else {
+                return 1;
+            }
+        }
+        if($nilai>=4) {
+            return 5;
+        }
+        else if($nilai>=3) {
+            return 4;
+        }
+        else if($nilai>=2) {
+            return 3;
+        }
+        else if($nilai>=1) {
+            return 2;
+        }
+        else {
+            return 1;
+        }
+    }
+ ?>
+
 <!-- MAIN -->
 <div class="main">
             <!-- MAIN CONTENT -->
@@ -162,7 +200,15 @@
                                                 
                                                 <td><?= $row ?></td>
                                                 <td><?= round($value,2,PHP_ROUND_HALF_UP) ?></td>
-                                                <td><?= 99 ?></td> 
+                                                <td>
+                                                    <?php 
+                                                    foreach ($mata_pelajaran as $key) {
+                                                        if($key->nama==$row) {
+                                                            echo utiliti($value,$key->jurusan);
+                                                        }
+                                                    }
+                                                     ?>
+                                                </td> 
                                                 
                                             </tr>
                                             <?php $i++; endforeach; ?>
@@ -177,10 +223,51 @@
                                                 
                                                 <td><?= $row ?></td>
                                                 <td><?= $value ?></td>
-                                                <td><?= 99 ?></td> 
+                                                <td><?= $value*10 ?></td> 
                                                 
                                             </tr>
                                             <?php $i++; endforeach; ?>
+                                            <tr>
+                                                <td colspan="4">
+                                                    Kuisioner
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                                                            
+                                                <td colspan="2">Kuisioner</td>
+                                                <td>
+                                                <?php $i=1; $total=0.0; foreach($kuisioner as $row):
+                                                    $pilgan = json_decode($row->jawaban);
+                                                    for ($i=0; $i < count($pilgan) ; $i++) { 
+                                                        if($pilgan[0] == $row->dijawab) {
+                                                            $total = $total + 1;
+                                                        }
+                                                        else if($pilgan[1] == $row->dijawab) {
+                                                            $total = $total + 0.5;
+                                                        }
+                                                        else if($pilgan[2] == $row->dijawab) {
+                                                            $total = $total + 0.25;
+                                                        }
+                                                    }
+                                                 $i++; endforeach;
+                                                 $total = floor($total)*0.1;
+                                                 echo $total;
+                                                 ?>                                                    
+                                                 </td>
+                                                <td><?= ceil($total*3) ?></td>                                                 
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    Psikotes
+                                                </td>
+                                            </tr>                                            
+                                            <tr>                                                                                                
+                                                <td colspan="2">Psikotes</td>
+                                                <td><?= $siswa->psikotes*0.125 ?></td>
+                                                <td><?= floor(($siswa->psikotes*0.125)*2) ?></td> 
+                                                
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <!-- /.table-responsive -->
