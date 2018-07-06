@@ -21,6 +21,7 @@ class Siswa extends MY_Controller
             redirect('login');
             exit;
         }
+        $this->data['siswa']        = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
     }
 
     public function index($value='')
@@ -29,7 +30,7 @@ class Siswa extends MY_Controller
         $this->load->model('siswa_m');
         $this->load->model('nilai_jurusan_m');
 
-        $this->data['siswa']        = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
+        
         $this->data['nilai']        = $this->nilai_jurusan_m->get([ 'nisn' => $this->data['siswa']->nisn ]);
         $this->data['kuisioner']    = $this->hasil_kuisioner_m->get([ 'nisn' => $this->data['siswa']->nisn ]);
     	$this->data['title']        = 'Dashboard Siswa';
@@ -230,10 +231,18 @@ class Siswa extends MY_Controller
         $this->load->model('kuisioner_m');        
         $this->load->model('siswa_m');
         $this->load->model('hasil_kuisioner_m');
+        $this->load->model('program_studi_m');
+        $this->load->model('universitas_m');
 
+        $this->load->model('pilihan_jurusan_m');
         if($this->POST('submit')) {
-            
-
+            for ($p=1; $p < 4; $p++) { 
+                $this->pilihan_jurusan_m->insert([
+                    'id_program_studi'  => $this->POST('prodi'.$p),
+                    'nisn'              => $this->data['siswa']->nisn,
+                    'pilihan_ke'        => $p
+                ]);
+            }
             $soal = array();
             $soal = $this->POST('soal');
             $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;

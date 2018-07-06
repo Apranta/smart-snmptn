@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 01 Jul 2018 pada 06.31
--- Versi Server: 10.1.16-MariaDB
--- PHP Version: 7.0.9
+-- Generation Time: 06 Jul 2018 pada 18.52
+-- Versi Server: 10.1.28-MariaDB
+-- PHP Version: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -195,8 +197,8 @@ CREATE TABLE `kuisioner` (
 --
 
 INSERT INTO `kuisioner` (`id`, `pertanyaan`, `jawaban`) VALUES
-(7, 'apa anda serius dengan jurusan yang anda pilih?', '["ya","tidak","maybe"]'),
-(8, 'anda ingin sukses?', '["ya","bisa jadi","tidak"]');
+(7, 'apa anda serius dengan jurusan yang anda pilih?', '[\"ya\",\"tidak\",\"maybe\"]'),
+(8, 'anda ingin sukses?', '[\"ya\",\"bisa jadi\",\"tidak\"]');
 
 -- --------------------------------------------------------
 
@@ -321,6 +323,19 @@ INSERT INTO `peringkat` (`id`, `nama_peringkat`, `bobot`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `pilihan_jurusan`
+--
+
+CREATE TABLE `pilihan_jurusan` (
+  `id_pilihan` int(11) NOT NULL,
+  `id_program_studi` int(11) NOT NULL,
+  `nisn` varchar(100) NOT NULL,
+  `pilihan_ke` enum('1','2','3') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `prestasi`
 --
 
@@ -386,8 +401,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`nisn`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `tempat_lahir`, `alamat`, `telepon`, `psikotes`, `jurusan`, `username`) VALUES
-('111', 'syad', 'L', '2018-06-05', 'kartamuliaa', 'palembang', '085758612443', 88, 'IPA', 'syad'),
-('222', '', '', '0000-00-00', '', '', '', 0, '', 'baru');
+('111', 'ani', 'L', '2018-06-05', 'kartamuliaa', 'palembang', '085758612443', 88, 'IPA', 'syad');
 
 -- --------------------------------------------------------
 
@@ -427,7 +441,6 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `role`) VALUES
 ('admin', '123', 1),
-('baru', '123', 2),
 ('sagasaga', '1111', 0),
 ('syad', '123', 2);
 
@@ -508,6 +521,14 @@ ALTER TABLE `peringkat`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `pilihan_jurusan`
+--
+ALTER TABLE `pilihan_jurusan`
+  ADD PRIMARY KEY (`id_pilihan`),
+  ADD KEY `nisn` (`nisn`),
+  ADD KEY `id_program_studi` (`id_program_studi`);
+
+--
 -- Indexes for table `prestasi`
 --
 ALTER TABLE `prestasi`
@@ -553,66 +574,85 @@ ALTER TABLE `user`
 --
 ALTER TABLE `bobot`
   MODIFY `id_bobot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1030;
+
 --
 -- AUTO_INCREMENT for table `hasil_kuisioner`
 --
 ALTER TABLE `hasil_kuisioner`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `jenis_lomba`
 --
 ALTER TABLE `jenis_lomba`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `jenjang_prestasi`
 --
 ALTER TABLE `jenjang_prestasi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `kuisioner`
 --
 ALTER TABLE `kuisioner`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `mata_lomba`
 --
 ALTER TABLE `mata_lomba`
   MODIFY `id_lomba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
 --
 -- AUTO_INCREMENT for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `nilai_jurusan`
 --
 ALTER TABLE `nilai_jurusan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
 --
 -- AUTO_INCREMENT for table `peringkat`
 --
 ALTER TABLE `peringkat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pilihan_jurusan`
+--
+ALTER TABLE `pilihan_jurusan`
+  MODIFY `id_pilihan` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `prestasi`
 --
 ALTER TABLE `prestasi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+
 --
 -- AUTO_INCREMENT for table `program_studi`
 --
 ALTER TABLE `program_studi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `universitas`
 --
 ALTER TABLE `universitas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
@@ -669,6 +709,7 @@ ALTER TABLE `program_studi`
 --
 ALTER TABLE `siswa`
   ADD CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
