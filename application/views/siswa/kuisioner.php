@@ -19,7 +19,8 @@
                                         <label>Pilihan Pertama</label>  
                                     </div>
                                     <div class="col-md-6">
-                                        <select name="prodi1" class="form-control">
+                                        <select name="prodi1" class="form-control" <?php if(!empty($hasil)) echo "disabled"; ?>>
+                                            <?php if(!empty($hasil)) echo '<option value="">'.$pilihjurusan[0]->nama_prodi.' - '.$pilihjurusan[0]->nama_uni.'</option>'; ?>
                                             <option value="">== Pilihan Ke 1==</option>
                                             <?php foreach ($this->program_studi_m->get() as $prodi): ?>
                                                 <option value="<?= $prodi->id ?>"><?= $prodi->nama_prodi . " - " . $this->universitas_m->get_row(['id' => $prodi->id_universitas])->nama_uni ?></option>
@@ -34,7 +35,8 @@
                                         <label>Pilihan Kedua</label>  
                                     </div>
                                     <div class="col-md-6">
-                                        <select name="prodi2" class="form-control">
+                                        <select name="prodi2" class="form-control" <?php if(!empty($hasil)) echo "disabled"; ?>>
+                                            <?php if(!empty($hasil)) echo '<option value="">'.$pilihjurusan[1]->nama_prodi.' - '.$pilihjurusan[1]->nama_uni.'</option>'; ?>
                                             <option value="">== Pilihan Ke 2==</option>
                                             <?php foreach ($this->program_studi_m->get() as $prodi): ?>
                                                 <option value="<?= $prodi->id ?>"><?= $prodi->nama_prodi . " - " . $this->universitas_m->get_row(['id' => $prodi->id_universitas])->nama_uni ?></option>
@@ -49,7 +51,8 @@
                                         <label>Pilihan Ketiga</label>  
                                     </div>
                                     <div class="col-md-6">
-                                        <select name="prodi3" class="form-control">
+                                        <select name="prodi3" class="form-control" <?php if(!empty($hasil)) echo "disabled"; ?>>
+                                            <?php if(!empty($hasil)) echo '<option value="">'.$pilihjurusan[2]->nama_prodi.' - '.$pilihjurusan[2]->nama_uni.'</option>'; ?>
                                             <option value="">== Pilihan Ke 3==</option>
                                             <?php foreach ($this->program_studi_m->get() as $prodi): ?>
                                                 <option value="<?= $prodi->id ?>"><?= $prodi->nama_prodi . " - " . $this->universitas_m->get_row(['id' => $prodi->id_universitas])->nama_uni ?></option>

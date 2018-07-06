@@ -34,7 +34,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="number" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" max="10" required> 
+                                            <input type="number" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" required> 
                                         </div>
                                         
                                         

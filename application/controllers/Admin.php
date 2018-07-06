@@ -56,6 +56,12 @@ class Admin extends MY_Controller
                 'jabatan'   => $this->POST('jabatan'),
                 'alamat'    => $this->POST('alamat')
             ];
+            $cek_username = $this->user_m->get_row([ $this->data['user']['username'] ]);
+            if ($cek_username) {
+                $this->flashmsg( 'tambah admin gagal, username sudah terdaftar.', 'danger' );
+                redirect( 'admin/data_admin' );
+                exit;
+            }
             $this->user_m->insert($this->data['user']);
             $this->admin_m->insert($this->data['admin']);
             $this->flashmsg('Berhasil tambah data.');
@@ -161,6 +167,11 @@ class Admin extends MY_Controller
         if ($this->POST( 'submit' ))
         {
             $this->load->model( 'siswa_m' );
+            $this->load->model( 'user_m' );
+            $this->data[ 'user' ]  = [
+                'username'          => $this->POST( 'username' ),
+                'password'          => $this->POST( 'password' )
+            ];
             $this->data[ 'siswa' ] = [
                 'nisn'              => $this->POST( 'nisn' ),
                 'nama'              => $this->POST( 'nama' ),
@@ -168,21 +179,27 @@ class Admin extends MY_Controller
                 'tanggal_lahir'     => $this->POST( 'tanggal_lahir' ),
                 'username'          => $this->POST( 'username' )
             ];            
-            $cek = $this->siswa_m->get_row(['nisn' => $this->data['siswa']['nisn'] ]);
-            if ($cek) {
-                $this->flashmsg( 'tambah siswa gagal, data tidak valid atau siswa sudah terdaftar.', 'error' );
+            $cek_nisn = $this->siswa_m->get_row([ 'nisn' => $this->data['siswa']['nisn'] ]);
+            $cek_username = $this->user_m->get_row([ 'username' => $this->data['user']['username'] ]);
+            if ($cek_nisn) {
+                $this->flashmsg( 'tambah siswa gagal, nisn sudah terdaftar.', 'danger' );
                 redirect( base_url( 'admin/data_siswa' ) );
                 exit;
+            } else if ($cek_username) {
+                $this->flashmsg( 'tambah siswa gagal, username sudah terdaftar.', 'danger' );
+                redirect( 'admin/data_siswa' );
+                exit;
             } else {
+                $this->user_m->insert( $this->data['user'] );
                 $this->siswa_m->insert( $this->data['siswa'] );
                 $this->flashmsg( 'tambah siswa sukses' );
-                redirect( base_url( 'admin/data_siswa' ) );
+                redirect( 'admin/data_siswa' );
                 exit;
 
             }
         }
         
-        redirect( base_url( 'admin/data_siswa' ) );
+        redirect( 'admin/data_siswa' );
         
     }
 
@@ -246,6 +263,7 @@ class Admin extends MY_Controller
         $this->load->model('siswa_m');
         $this->load->model('hasil_kuisioner_m');
         $this->load->model('mata_pelajaran_m');
+        $this->load->model('pilihan_jurusan_m');
 
         $nisn = $this->uri->segment(3);
         if (!isset($nisn)) {
@@ -263,6 +281,7 @@ class Admin extends MY_Controller
         $this->data['smart_prestasi']   = $this->smart_prestasi($this->data['prestasi']);                
         $this->data['kuisioner']        = $this->hasil_kuisioner_m->getKuisioner($nisn);
         $this->data['mata_pelajaran']   = $this->mata_pelajaran_m->get();
+        $this->data['pilihan_jurusan']  = $this->pilihan_jurusan_m->getPilihan($nisn);
         $this->data['total_value']      = 0;
         $this->data['title']            = 'Detail Siswa '.$this->data['siswa']->nisn;
         $this->data['content']          = 'admin/siswa_detail';

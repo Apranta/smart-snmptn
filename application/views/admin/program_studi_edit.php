@@ -42,7 +42,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="number" value="<?= $program_studi->grade ?>" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" max="10" required>   
+                                            <input type="number" value="<?= $program_studi->grade ?>" name="grade" placeholder="grade" class="form-control" step="0.1" min="0" required>   
                                         </div>
                                         
                                         

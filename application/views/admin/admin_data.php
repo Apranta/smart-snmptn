@@ -15,7 +15,7 @@
                                         tr th, tr td {text-align: center; padding: 1%;}
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i> Tambah</button><hr>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i> Tambah Admin</button><hr>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>

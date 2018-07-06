@@ -21,6 +21,7 @@ class Siswa extends MY_Controller
             redirect('login');
             exit;
         }
+        $this->load->model('siswa_m');
         $this->data['siswa']        = $this->siswa_m->get_row([ 'username' => $this->data['username'] ]);
     }
 
@@ -233,7 +234,6 @@ class Siswa extends MY_Controller
         $this->load->model('hasil_kuisioner_m');
         $this->load->model('program_studi_m');
         $this->load->model('universitas_m');
-
         $this->load->model('pilihan_jurusan_m');
         if($this->POST('submit')) {
             for ($p=1; $p < 4; $p++) { 
@@ -260,7 +260,8 @@ class Siswa extends MY_Controller
             exit;
         }
         $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;
-        $this->data['hasil']        = $this->hasil_kuisioner_m->get([ 'nisn' => $nisn ]);        
+        $this->data['hasil']        = $this->hasil_kuisioner_m->get([ 'nisn' => $nisn ]);
+        $this->data['pilihjurusan'] = $this->pilihan_jurusan_m->getPilihan($nisn);                
         $this->data['kuisioner']    = $this->kuisioner_m->get();
         $this->data['title']        = 'Kuisioner';
         $this->data['content']      = 'siswa/kuisioner';

@@ -282,9 +282,40 @@
                                                 <td><?= $total_value ?></td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table> <hr>
                                     <!-- /.table-responsive -->
-                                    
+                                    <?php $terpilih = []; foreach ($pilihan_jurusan as $row) {
+                                        if($row->grade < $total_value) {
+                                            $terpilih[$row->nama_prodi.'-'.$row->nama_uni] = $row->grade;
+                                        }
+                                    } 
+                                    if(empty($terpilih) || $terpilih==NULL) {
+                                        echo '<center style="color: red;">Maaf siswa tidak layak</center><br>';
+                                    } else {
+                                        echo '<center style="color: green;">Selamat siswa layak memilih jurusan dibawah ini</center><br>'; ?>                                        
+                                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-pilihan">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>                                              
+                                                    <th>Program Studi</th>
+                                                    <th>Grade</th>
+                                                    
+                                                    <!-- <th></th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i=1; foreach($terpilih as $key => $value): ?>
+                                                <tr>
+                                                    <td style="width: 20px !important;" ><?= $i ?></td>
+                                                    
+                                                    <td style="width: 550px;"><?= $key ?></td>
+                                                    <td><?= $value ?></td>
+                                                    
+                                                </tr>
+                                                <?php $i++; endforeach; ?>
+                                            </tbody>
+                                        </table>  
+                                    <?php  } ?>
                                 </div>
                                 <!-- /.panel-body -->
                             </div>

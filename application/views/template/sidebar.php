@@ -22,11 +22,9 @@
                     <ul class="nav">
                         <li><a href="<?= base_url('siswa/') ?>" ><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="<?= base_url('siswa/profile') ?>"><i class="lnr lnr-user"></i> <span>Data Siswa</span></a></li></li>
-                        <li><a href="#"><i class="fa fa-file"></i> <span>Data Nilai</span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="<?= base_url('siswa/nilai_jurusan') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Jurusan</span></a>
-                            <li><a href="<?= base_url('siswa/nilai_umum') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Umum</span></a>
-                        </ul>
+                        <li><a href="<?= base_url('siswa/nilai_jurusan') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Jurusan</span></a></li>
+                        <li><a href="<?= base_url('siswa/nilai_umum') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Umum</span></a></li>
+                        <li><a href="<?= base_url('siswa/kuisioner') ?>" class=""><i class="fa fa-file"></i> <span>Kuisioner</span></a></li>
                         <li><a href="<?= base_url('siswa/data_program_studi') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Program Studi</span></a></li></li>
                     </ul>
                 <?php elseif ($this->session->userdata('role') == 3): ?>
