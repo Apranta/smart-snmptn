@@ -218,7 +218,7 @@ class Admin extends MY_Controller
         $this->data['smart_prestasi']   = $this->smart_prestasi($this->data['prestasi']);                
         $this->data['kuisioner']        = $this->hasil_kuisioner_m->getKuisioner($nisn);
         $this->data['mata_pelajaran']   = $this->mata_pelajaran_m->get();
-        //$this->dump($this->data['kuisioner']); exit();
+        $this->data['total_value']      = 0;
         $this->data['title']            = 'Detail Siswa '.$this->data['siswa']->nisn;
         $this->data['content']          = 'admin/siswa_detail';
         $this->template($this->data);
