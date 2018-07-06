@@ -105,12 +105,56 @@ class Admin extends MY_Controller
     public function data_siswa($value='')
     {
         $this->load->model( 'siswa_m' );
+        $this->load->model( 'user_m' );
+
+        $del = $this->uri->segment(3);
+        if(isset($del) && $del=='delete')
+        {
+            $nisn = $this->uri->segment(4);
+            $this->siswa_m->delete($nisn);
+            $this->flashmsg('Berhasil hapus data.');
+            redirect('admin/data_siswa','refresh');
+            exit;
+        }
+
         $this->data[ 'siswa' ]        = $this->siswa_m->get();
+        $this->data[ 'user' ]         = $this->user_m->get([ 'role' => 2]);
         $this->data[ 'title' ]        = 'Data Siswa';
         $this->data[ 'content' ]      = 'admin/siswa_data';
         $this->template($this->data, 'admin');
     }
 
+    public function edit_siswa($value='')
+    {
+        $this->load->model('siswa_m');
+
+        $nisn =  $this->uri->segment(3);
+        if (!isset($nisn)) {
+            redirect('admin/data_siswa','refresh');
+            exit;
+        }
+
+        if ($this->POST('edit')) {            
+            $this->data[ 'siswa' ] = [
+                'nisn'              => $this->POST( 'nisn' ),
+                'nama'              => $this->POST( 'nama' ),
+                'jenis_kelamin'     => $this->POST( 'jenis_kelamin' ),
+                'tanggal_lahir'     => $this->POST( 'tanggal_lahir' ),
+                'alamat'            => $this->POST('alamat'),
+                'jurusan'           => $this->POST('jurusan'),
+                'psikotes'          => $this->POST('psikotes')
+            ];
+            $this->siswa_m->update($nisn,$this->data['siswa']);
+            $this->flashmsg('Berhasil edit data.');
+            redirect('admin/edit_siswa/'.$this->data['siswa']['nisn'],'refresh');    
+            exit;
+        }
+
+        $this->data[ 'siswa' ]        = $this->siswa_m->get_row([ 'nisn' => $nisn ]);
+        $this->data[ 'title' ]        = 'Edit Data Siswa';
+        $this->data[ 'content' ]      = 'admin/siswa_edit';
+        $this->template( $this->data );
+    }
 
     public function tambah_siswa($value='')
     {
@@ -121,8 +165,9 @@ class Admin extends MY_Controller
                 'nisn'              => $this->POST( 'nisn' ),
                 'nama'              => $this->POST( 'nama' ),
                 'jenis_kelamin'     => $this->POST( 'jenis_kelamin' ),
-                'tanggal_lahir'     => $this->POST( 'tanggal_lahir' )
-            ];
+                'tanggal_lahir'     => $this->POST( 'tanggal_lahir' ),
+                'username'          => $this->POST( 'username' )
+            ];            
             $cek = $this->siswa_m->get_row(['nisn' => $this->data['siswa']['nisn'] ]);
             if ($cek) {
                 $this->flashmsg( 'tambah siswa gagal, data tidak valid atau siswa sudah terdaftar.', 'error' );
@@ -218,7 +263,7 @@ class Admin extends MY_Controller
         $this->data['smart_prestasi']   = $this->smart_prestasi($this->data['prestasi']);                
         $this->data['kuisioner']        = $this->hasil_kuisioner_m->getKuisioner($nisn);
         $this->data['mata_pelajaran']   = $this->mata_pelajaran_m->get();
-        //$this->dump($this->data['kuisioner']); exit();
+        $this->data['total_value']      = 0;
         $this->data['title']            = 'Detail Siswa '.$this->data['siswa']->nisn;
         $this->data['content']          = 'admin/siswa_detail';
         $this->template($this->data);

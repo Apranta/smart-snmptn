@@ -27,15 +27,6 @@
                             <li><a href="<?= base_url('siswa/nilai_jurusan') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Jurusan</span></a>
                             <li><a href="<?= base_url('siswa/nilai_umum') ?>" class=""><i class="fa fa-file"></i> <span>Nilai Umum</span></a>
                         </ul>
-                        </li></li>
-
-                        
-
-
-                        <li><a href="<?= base_url('siswa/data_prestasi') ?>" class=""><i class="fa fa-file"></i> <span>Data Prestasi</span></a></li></li>
-                        <li><a href="<?= base_url('siswa/kuisioner') ?>" class=""><i class="fa fa-table"></i> <span>Kuisioner</span></a></li></li>
-                        <li><a href="<?= base_url('siswa/data_universitas') ?>" class=""><i class="fa 
-                        fa-edit"></i> <span>Daftar PTN</span></a></li></li>
                         <li><a href="<?= base_url('siswa/data_program_studi') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar Program Studi</span></a></li></li>
                     </ul>
                 <?php elseif ($this->session->userdata('role') == 3): ?>

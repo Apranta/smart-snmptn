@@ -53,6 +53,7 @@ class Siswa extends MY_Controller
             $nisn = $this->siswa_m->get_row([ 'username' => $this->data['username'] ])->nisn;            
             $this->data[ 'siswa' ] = [
                 'nama'          => $this->POST('nama'),
+                'jenis_kelamin' => $this->POST( 'jenis_kelamin' ),
                 'tempat_lahir'  => $this->POST('tempat_lahir'),
                 'tanggal_lahir' => $this->POST('tanggal_lahir'),
                 'alamat'        => $this->POST('alamat'),

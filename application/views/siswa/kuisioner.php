@@ -3,9 +3,14 @@
             <!-- MAIN CONTENT -->
             <div class="main-content">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h3>Kuisioner</h3> <hr>
+                    <!-- OVERVIEW -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <?= $this->session->flashdata('msg') ?>
+                            <h4><?= $title ?></h4>                            
+                        </div>
+                        <div class="panel-body">                            
+                            <div class="col-lg-10">                            
                             <?= form_open( 'siswa/kuisioner' ) ?>
                             <?php $i=1; foreach($kuisioner as $row): ?>
                             <div class="row">
@@ -33,11 +38,10 @@
 
                             <input type="submit" name="submit" value="simpan" class="btn btn-primary" <?php if(!empty($hasil)) echo "disabled"; ?> >
                             <?= form_close() ?>
-                            <!-- /.panel -->
+                            </div>
                         </div>
-                        <!-- /.col-lg-12 -->
+                        
                     </div>
-                    <!-- /.row -->
                 </div>
             </div>
         </div>

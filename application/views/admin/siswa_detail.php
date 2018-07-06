@@ -204,7 +204,9 @@
                                                     <?php 
                                                     foreach ($mata_pelajaran as $key) {
                                                         if($key->nama==$row) {
-                                                            echo utiliti($value,$key->jurusan);
+                                                            $n = utiliti($value,$key->jurusan);
+                                                            $total_value = $total_value+$n;
+                                                            echo $n;
                                                         }
                                                     }
                                                      ?>
@@ -220,7 +222,7 @@
                                             <?php $i=1; foreach($smart_prestasi as $row => $value): ?>
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
-                                                
+                                                <?php $total_value = $total_value+$value; ?>
                                                 <td><?= $row ?></td>
                                                 <td><?= $value ?></td>
                                                 <td><?= $value*10 ?></td> 
@@ -252,6 +254,7 @@
                                                     }
                                                  $i++; endforeach;
                                                  $total = floor($total)*0.1;
+                                                 $total_value = $total_value+$total;
                                                  echo $total;
                                                  ?>                                                    
                                                  </td>
@@ -265,8 +268,18 @@
                                             <tr>                                                                                                
                                                 <td colspan="2">Psikotes</td>
                                                 <td><?= $siswa->psikotes*0.125 ?></td>
-                                                <td><?= floor(($siswa->psikotes*0.125)*2) ?></td> 
+                                                <?php 
+                                                    $p = floor(($siswa->psikotes*0.125)*2); 
+                                                    $total_value = $total_value+$p;
+                                                ?>
+                                                <td><?= $p ?></td> 
                                                 
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    Total Value
+                                                </td>
+                                                <td><?= $total_value ?></td>
                                             </tr>
                                         </tbody>
                                     </table>

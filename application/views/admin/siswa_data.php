@@ -30,6 +30,14 @@
                                         <div class="form-group">
                                             <input type="date" name="tanggal_lahir" placeholder="tanggal_lahir" class="form-control">    
                                         </div>    
+                                        <div class="form-group">
+                                            <select class="form-control" name="username" required>
+                                                <option value="">Username</option>
+                                                <?php foreach ($user as $key) { ?>
+                                                    <option value="<?= $key->username ?>"><?= $key->username ?></option>  
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                         <input type="submit" name="submit" value="simpan" class="btn btn-primary">
                                     <?= form_close() ?> <hr>
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -40,7 +48,7 @@
                                                 <th>Nama</th>
                                                 <th>Jenis Kelamin</th>
                                                 <th>Tanggal Lahir</th>                                        
-                                                <th>Detail</th>
+                                                <th>Aksi</th>
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>
@@ -54,6 +62,8 @@
                                                 <td><?= $row->tanggal_lahir ?></td>                                                
                                                 <td align="center">
                                                 <a href="<?= base_url( 'admin/detail_siswa/'.$row->nisn )?>" class="btn btn-xs" >Detail Siswa</a>
+                                                <a href="<?= base_url( 'admin/edit_siswa/'.$row->nisn ) ?>" class="btn btn-xs">Edit Data</a>
+                                                <a href="<?= base_url( 'admin/data_siswa/delete/'.$row->nisn ) ?>" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>

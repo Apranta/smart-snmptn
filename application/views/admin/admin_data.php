@@ -36,7 +36,7 @@
                                                 <td><?= $row->jabatan ?></td>                                                
                                                 <td align="center">
                                                 <a href="<?= base_url('admin/edit_admin/'. $row->username) ?>" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i></a>
-                                                <a href="<?= base_url('admin/data_admin/delete/'.$row->username) ?>" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <a href="<?= base_url('admin/data_admin/delete/'.$row->username) ?>" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>

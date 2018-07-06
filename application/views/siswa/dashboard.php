@@ -4,9 +4,9 @@
             <div class="main-content">
                 <div class="container-fluid">
                     <!-- OVERVIEW -->
-                    <div class="panel panel-headline">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Dashboard Siswa</h3>
+                            <h4><?= $title ?></h4>  
                             <!--<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>-->
                         </div>
                         <div class="panel-body">
@@ -16,7 +16,7 @@
                         <div class="panel-footer">
                             <p>Pengisian Data <input type="checkbox" name="nilai" <?php if(isset($siswa->psikotes)) echo "checked"; ?> disabled></p>
                             <p>Pengisian Kuisioner <input type="checkbox" <?php if(!empty($kuisioner)) echo "checked"; ?> name="nilai" disabled></p>
-                            <p>Pengisian Hitung Nilai <input type="checkbox" <?php if(!empty($jurusan)) echo "checked"; ?> name="nilai" disabled></p>
+                            <p>Pengisian Hitung Nilai <input type="checkbox" <?php if(!empty($nilai)) echo "checked"; ?> name="nilai" disabled></p>
                         </div>
                     </div>
                 </div>

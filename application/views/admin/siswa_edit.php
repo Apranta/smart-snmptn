@@ -4,18 +4,18 @@
             <div class="main-content">
                 <div class="container-fluid">
                     <!-- OVERVIEW -->
-                    <div class="panel panel-default">
+                    <div class="panel panel-headline">
                         <div class="panel-heading">
                             <?= $this->session->flashdata('msg') ?>
-                            <h4><?= $title ?></h4>                            
+                            <h3 class="panel-title"><?= $title ?></h3>                            
                         </div>
                         <div class="panel-body">                            
                             <div class="col-lg-10">
-                                <?= form_open('siswa/update_profile/') ?>
+                                <?= form_open('admin/edit_siswa/'.$siswa->nisn) ?>
                                 
                                 <div class="form-group">
                                     <label for="nisn">NISN</label>
-                                    <input type="text" value="<?= $siswa->nisn ?>" name="nisn" class="form-control" required readonly>
+                                    <input type="text" value="<?= $siswa->nisn ?>" name="nisn" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
@@ -61,7 +61,7 @@
                                 </div>
 
 
-                                <input type="submit" name="submit" value="Simpan" class="btn btn-primary">
+                                <input type="submit" name="edit" value="Simpan" class="btn btn-primary">
                                 <?= form_close() ?>
                             </div>
                         </div>
