@@ -4,7 +4,7 @@
                 <nav>
                 <?php if ($this->session->userdata('role') == 1): ?>
                     <ul class="nav">
-                        <li><a href="<?= base_url('admin/') ?>" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                        <li><a href="<?= base_url('admin/') ?>" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="<?= base_url('admin/data_admin') ?>" class=""><i class="lnr lnr-user"></i> <span>Data Admin</span></a></li></li>
                         <li><a href="<?= base_url('admin/data_siswa') ?>" class=""><i class="fa fa-table"></i> <span>Data Siswa</span></a></li></li>
                         <li><a href="<?= base_url('admin/data_universitas') ?>" class=""><i class="fa fa-edit"></i> <span>Daftar PTN</span></a></li></li>
@@ -20,7 +20,7 @@
                     </ul>
                 <?php elseif ($this->session->userdata('role') == 2): ?>
                     <ul class="nav">
-                        <li><a href="<?= base_url('siswa/') ?>" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                        <li><a href="<?= base_url('siswa/') ?>" ><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="<?= base_url('siswa/profile') ?>"><i class="lnr lnr-user"></i> <span>Data Siswa</span></a></li></li>
                         <li><a href="#"><i class="fa fa-file"></i> <span>Data Nilai</span></a>
                         <ul class="nav nav-second-level">
@@ -40,7 +40,7 @@
                     </ul>
                 <?php elseif ($this->session->userdata('role') == 3): ?>
                     <ul class="nav">
-                        <li><a href="<?= base_url('pegawai/') ?>" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                        <li><a href="<?= base_url('pegawai/') ?>" ><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="<?= base_url('pegawai/profile') ?>"><i class="lnr lnr-user"></i> <span>Profile</span></a></li>
                         <li><a href="<?= base_url('pegawai/berkas') ?>"><i class="lnr lnr-user"></i> <span>Data Berkas</span></a></li>
                     </ul>
@@ -48,5 +48,14 @@
                 </nav>
             </div>
         </div>
+        <script>
+            $(function(){
+                  $('a[href]').each(function() {
+                    if ($(this).attr('href') == window.location.pathname || $(this).attr('href') == window.location.href)
+                      $(this).addClass('active');
+                  });
+            });
+        </script>
+
         <!-- END LEFT SIDEBAR -->
         <div id="page-wrapper">
