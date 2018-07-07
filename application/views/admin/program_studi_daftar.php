@@ -16,7 +16,7 @@
                                     </style>
                                     <?= $this->session->flashdata('msg') ?>
                                     Tambah data
-                                    <?= form_open( 'admin/data_universitas', [ 'class' => 'form-inline'] ) ?>
+                                    <?= form_open( 'admin/data_program_studi', [ 'class' => 'form-inline'] ) ?>
                                         <div class="form-group">
                                             <input type="text" name="nama_prodi" placeholder="nama prodi" class="form-control">   
                                         </div>
@@ -63,8 +63,8 @@
                                                 <td><?= $row->grade ?></td>
                                                                                                 
                                                 <td align="center">
-                                                <a href="<?= base_url( 'admin/edit_program_studi/'.$row->id )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
-                                                <a href="<?= base_url( 'admin/data_program_studi/delete/'.$row->id )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
+                                                <a href="<?= base_url( 'admin/edit_program_studi/'.$row->id_studi )?>" class="btn btn-xs btn-primary glyphicon glyphicon-pencil" ></a>
+                                                <a href="<?= base_url( 'admin/data_program_studi/delete/'.$row->id_studi )?>" class="btn btn-xs btn-danger glyphicon glyphicon-trash" ></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; endforeach; ?>

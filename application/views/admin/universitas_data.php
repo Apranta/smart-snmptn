@@ -18,7 +18,7 @@
                                     Tambah data
                                     <?= form_open( 'admin/data_universitas', [ 'class' => 'form-inline'] ) ?>
                                         <div class="form-group">
-                                            <input type="text" name="nama" placeholder="nama" class="form-control" required>   
+                                            <input type="text" name="nama_uni" placeholder="nama" class="form-control" required>   
                                         </div>
                                         <div class="form-group">
                                             <input type="text" name="link" placeholder="link" class="form-control" required>   

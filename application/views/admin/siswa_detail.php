@@ -291,9 +291,21 @@
                                     } 
                                     if(empty($terpilih) || $terpilih==NULL) {
                                         echo '<center style="color: red;">Maaf siswa tidak layak</center><br>';
+                                        echo '<center style="color: blue;">siswa disarankan memilih jurusan dibawah ini.</center><br>';
+                                        $i = 1;
+                                        foreach ($program_studi as $row) {
+                                            if($row->grade < $total_value) {
+                                                $terpilih[$row->nama_prodi.'-'.$row->nama_uni] = $row->grade;
+                                                $i++;
+                                                if($i==3) {
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     } else {
-                                        echo '<center style="color: green;">Selamat siswa layak memilih jurusan dibawah ini</center><br>'; ?>                                        
-                                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-pilihan">
+                                        echo '<center style="color: green;">Selamat siswa layak memilih jurusan yang dipilihnya.</center><br>'; ?>                                                                                
+                                    <?php  } ?>
+                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-pilihan">
                                             <thead>
                                                 <tr>
                                                     <th>No</th>                                              
@@ -314,8 +326,7 @@
                                                 </tr>
                                                 <?php $i++; endforeach; ?>
                                             </tbody>
-                                        </table>  
-                                    <?php  } ?>
+                                        </table> 
                                 </div>
                                 <!-- /.panel-body -->
                             </div>

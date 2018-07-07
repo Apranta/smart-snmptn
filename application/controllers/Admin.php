@@ -264,7 +264,7 @@ class Admin extends MY_Controller
         $this->load->model('hasil_kuisioner_m');
         $this->load->model('mata_pelajaran_m');
         $this->load->model('pilihan_jurusan_m');
-
+        $this->load->model('program_studi_m');
         $nisn = $this->uri->segment(3);
         if (!isset($nisn)) {
             redirect('admin/data_siswa','refresh');
@@ -281,6 +281,8 @@ class Admin extends MY_Controller
         $this->data['smart_prestasi']   = $this->smart_prestasi($this->data['prestasi']);                
         $this->data['kuisioner']        = $this->hasil_kuisioner_m->getKuisioner($nisn);
         $this->data['mata_pelajaran']   = $this->mata_pelajaran_m->get();
+        $this->data['program_studi']    = $this->program_studi_m->getStudi();
+        //$this->dump($this->data['program_studi']); exit();
         $this->data['pilihan_jurusan']  = $this->pilihan_jurusan_m->getPilihan($nisn);
         $this->data['total_value']      = 0;
         $this->data['title']            = 'Detail Siswa '.$this->data['siswa']->nisn;
@@ -303,7 +305,7 @@ class Admin extends MY_Controller
 
         if ($this->POST('submit')) {
             $this->data['universitas']  = [
-                'nama_uni'     => $this->POST('nama'),
+                'nama_uni'     => $this->POST('nama_uni'),
                 'link'         => $this->POST('link')
             ];
             $this->universitas_m->insert($this->data['universitas']);
@@ -370,7 +372,7 @@ class Admin extends MY_Controller
             exit;
         }
 
-        $this->data['program_studi']= $this->program_studi_m->getDataJoin([ 'universitas' ], [ 'program_studi.id_universitas=universitas.id' ]);
+        $this->data['program_studi']= $this->program_studi_m->getStudi();
         $this->data['universitas']  = $this->universitas_m->get();
         $this->data['title']        = 'Daftar Program Studi';
         $this->data['content']      = 'admin/program_studi_daftar';
